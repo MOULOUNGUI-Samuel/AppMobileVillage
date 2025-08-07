@@ -95,7 +95,7 @@
             deferredPrompt = e;
 
             const btn = document.createElement('button');
-            btn.textContent = '📲 Installer sur mon téléphone !';
+            btn.textContent = '📲 Installer l’appli mobile ';
             btn.id = 'installBtn';
             document.body.appendChild(btn);
 
@@ -104,8 +104,8 @@
             style.innerHTML = `
                 #installBtn {
                     position: fixed;
-                    top: 20px;
-                    left: 50px;
+                    bottom: 20px;
+                    left: 20px;
                     padding: 12px 24px;
                     background: #5D4037;
                     color: white;
