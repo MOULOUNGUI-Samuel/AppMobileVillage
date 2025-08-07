@@ -10,8 +10,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ config('app.name', 'GESTVILLAGE') }}</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="manifest" href="manifest.json">
+    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
     <meta name="theme-color" content="#4a2f26">
     <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
@@ -22,7 +21,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <!-- <link href="https://unpkg.com/phosphor-icons" rel="stylesheet"> -->
-
+<link rel="manifest" href="manifest.json">
+    
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -559,75 +559,7 @@
         </div>
     </div> --}}
 
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-
-            const btn = document.createElement('button');
-            btn.textContent = '📲 Installer l’appli mobile ';
-            btn.id = 'installBtn';
-            document.body.appendChild(btn);
-
-            // Appliquer les styles et animations
-            const style = document.createElement('style');
-            style.innerHTML = `
-                #installBtn {
-                    position: fixed;
-                    bottom: 20px;
-                    left: 20px;
-                    padding: 12px 24px;
-                    background: #5D4037;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    font-size: 16px;
-                    cursor: pointer;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-                    opacity: 0;
-                    transform: translateY(20px);
-                    animation: fadeInUp 1s ease forwards;
-                    z-index: 9999;
-                }
-
-                #installBtn:hover {
-                    background-color: #5D4037;
-                    transform: scale(1.05);
-                    transition: background-color 0.3s, transform 0.3s;
-                }
     
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-
-            // Action au clic
-            btn.addEventListener('click', () => {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(choice => {
-                    if (choice.outcome === 'accepted') {
-                        btn.remove();
-                        console.log("✅ L'application YODI EVENTS a été installée !");
-                    } else {
-                        console.log("❌ Installation refusée.");
-                    }
-                });
-            });
-        });
-    </script>
     <main class="home-screen">
         <!-- Preloader End -->
         <!-- =================================== -->
@@ -904,7 +836,75 @@
                 </form>
             </div>
         </div>
+<script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
 
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            const btn = document.createElement('button');
+            btn.textContent = '📲 Installer l’appli mobile ';
+            btn.id = 'installBtn';
+            document.body.appendChild(btn);
+
+            // Appliquer les styles et animations
+            const style = document.createElement('style');
+            style.innerHTML = `
+                #installBtn {
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px;
+                    padding: 12px 24px;
+                    background: #5D4037;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                    opacity: 0;
+                    transform: translateY(20px);
+                    animation: fadeInUp 1s ease forwards;
+                    z-index: 9999;
+                }
+
+                #installBtn:hover {
+                    background-color: #5D4037;
+                    transform: scale(1.05);
+                    transition: background-color 0.3s, transform 0.3s;
+                }
+    
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Action au clic
+            btn.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        btn.remove();
+                        console.log("✅ L'application YODI EVENTS a été installée !");
+                    } else {
+                        console.log("❌ Installation refusée.");
+                    }
+                });
+            });
+        });
+    </script>
         <!-- Logout Modal End -->
         <!-- Logout Modal End -->
         <!-- ============================= Modal end ========================== -->

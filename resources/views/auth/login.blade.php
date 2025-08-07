@@ -13,8 +13,10 @@
     />
     <title>Sign In - Appoinx HTML App</title>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+    
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4a2f26">
   </head>
   <body>
     <main class="flex-center h-100">
@@ -82,7 +84,75 @@
         </form>
       </section>
     </main>
+<script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
 
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            const btn = document.createElement('button');
+            btn.textContent = '📲 Installer l’appli mobile ';
+            btn.id = 'installBtn';
+            document.body.appendChild(btn);
+
+            // Appliquer les styles et animations
+            const style = document.createElement('style');
+            style.innerHTML = `
+                #installBtn {
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px;
+                    padding: 12px 24px;
+                    background: #5D4037;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                    opacity: 0;
+                    transform: translateY(20px);
+                    animation: fadeInUp 1s ease forwards;
+                    z-index: 9999;
+                }
+
+                #installBtn:hover {
+                    background-color: #5D4037;
+                    transform: scale(1.05);
+                    transition: background-color 0.3s, transform 0.3s;
+                }
+    
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Action au clic
+            btn.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        btn.remove();
+                        console.log("✅ L'application YODI EVENTS a été installée !");
+                    } else {
+                        console.log("❌ Installation refusée.");
+                    }
+                });
+            });
+        });
+    </script>
     <!-- Js Dependencies -->
     <script src="{{ asset('assets/js/plugins/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
