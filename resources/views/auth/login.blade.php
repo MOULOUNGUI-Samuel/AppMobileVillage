@@ -18,11 +18,11 @@
         <section class="sign-in-area">
             <!-- Logo/Image -->
             <img src='{{ asset('assets/img/logo1.png') }}' alt="Logo YODI EVENTS" class="mb-3"
-                style="max-width: 120px;">
+                style="max-width: 150px;">
 
             <h2 class="heading-2">Se connecter</h2>
             <p class="paragraph-small pt-3">
-                Accédez à votre compte en toute sécurité.
+              Accédez à votre compte en toute sécurité. Connectez-vous pour gérer votre expérience personnalisée.
             </p>
 
             <form class="input-field-area d-flex flex-column gap-2" method="POST" action="{{ route('login') }}">
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="d-flex flex-column gap-8">
-                    <a href="#" class="d-block text-end fw-semibold">Mot de passe oublié?</a>
+                    <a href="#" class="d-block text-end fw-semibold">Mot de passe oublié ?</a>
                     <button class="link-button d-block shadow btn-action" type="submit" data-loader-target="connecter">Se
                         connecter</button>
                 </div>
