@@ -20,7 +20,7 @@ html {
 
 body {
   font-family: var(--body-font);
-  background-color: var(--white);
+  background-color: #f9f9f9;
   height: 100vh;
   line-height: 150%;
   padding: 0;
@@ -208,9 +208,9 @@ textarea:focus {
 :root {
   --body-font: "Poppins", sans-serif;
   --transition: all 0.5s ease-in-out;
-  --p1: rgba(0, 146, 129, 1);
-  --n1: rgba(14, 13, 57, 1);
-  --n2: rgba(69, 69, 103, 1);
+  --p1: rgba(6, 61, 6, 0.944);
+  --n1: rgb(91, 60, 57);
+  --n2: rgba(104, 51, 46, 0.692);
   --n40: rgba(224, 224, 229, 1);
   --white: #ffff;
   --secodayBg2: rgba(150, 210, 203, 1);
@@ -602,7 +602,7 @@ textarea:focus {
   position: absolute;
   width: 204px;
   height: 204px;
-  background: rgb(43, 165, 150);
+  background: rgb(59,100,62);
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   border-radius: 100%;
@@ -805,7 +805,7 @@ textarea:focus {
 
 /* friday */
 .date-picker:nth-child(6) {
-  color: green;
+  color: rgb(59,100,62);
 }
 
 #monthAndYear {
