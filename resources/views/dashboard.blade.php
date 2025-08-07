@@ -1,66 +1,30 @@
 @extends('layouts.app')
 @section('content')
     <!-- Header Section Start -->
- <!-- =================================== -->
-    <!--   DEBUT DE LA SECTION A FIGER       -->
-    <!-- =================================== -->
-    <div class="sticky-top bg-white shadow-sm">
-        <!-- Header Section Start -->
-        <section class="d-flex justify-content-between align-items-center home-header-section w-100 px-3 pt-3 ">
-            <div class="d-flex justify-content-start align-items-center gap-3 mt-3">
-                <div class="profile-img">
-                    <img src="assets/img/myboto.jpeg" alt="Photo de profil" />
-                </div>
-                <div>
-                    <h3 class="heading-3 pb-2">Madame MYBOTO</h3>
-                    <p class="d-inline-flex gap-2 location justify-content-start align-items-center">
-                        Administrateur
-                    </p>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-end align-items-center header-right gap-2 flex-wrap">
-                <button class="p-2 flex-center" id="notificationModalOpenButton">
-                    <i class="ph ph-bell fs-5"></i>
-                    <span class="notification"></span>
-                </button>
-            </div>
-        </section>
-        <!-- Header Section End -->
-
-        <!-- Search Section Start -->
-        <section class="search-section w-100 px-3 pt-3 pb-3">
-            <div class="search-area d-flex justify-content-between align-items-center gap-2 w-100">
-                <div class="search-box d-flex justify-content-start align-items-center gap-2 p-2 w-100 rounded-pill">
-                    <div class="flex-center ps-2">
-                        <i class="ph ph-magnifying-glass"></i>
-                    </div>
-                    <input type="text" placeholder="Tapez votre recherche..." class="border-0 bg-transparent w-100" style="outline: none;" />
-                </div>
-            </div>
-        </section>
-    </div>
-    <!-- =================================== -->
-    <!--     FIN DE LA SECTION A FIGER       -->
-    <!-- =================================== -->
 
     <!-- Doctor Specialist End -->
 
     <!-- Top Doctor Start -->
     <section class="px-6 pt-6 top-doctor-area">
         <div class="d-flex justify-content-between align-items-center">
-            <h3>A venir</h3>
-            {{-- <button class="view-all" id="topDoctorModalOpenButton">
-                Voir plus
-            </button> --}}
+            <h5>A venir</h3>
         </div>
 
         <div class="d-flex flex-column gap-4 pt-4">
-
+            <div class="search-area d-flex justify-content-between align-items-center gap-2 w-100 shadow"
+                style="border-radius:10px;background:rgb(253, 255, 255)">
+                <div class="search-box d-flex justify-content-start align-items-center gap-2 p-2 w-100 rounded-pill">
+                    <div class="flex-center ps-2">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Recherche..." class="border-0 bg-transparent w-100"
+                        style="outline: none;" />
+                </div>
+            </div>
             <!-- les reservations à venir -->
             <!-- Assurez-vous d'avoir inclus Bootstrap 5 et Phosphor Icons dans votre projet -->
             @foreach ($reservations as $reservation)
-                <a href="{{ route('doctor.profile') }}" class="text-decoration-none text-dark d-block">
+                <a href="{{ route('doctor.profile') }}" class="text-decoration-none text-dark d-block reservation-item">
                     <div class="cash-register-card shadow-sm border-0 rounded-3 mb-3">
                         <!-- Section 1: Informations sur la réservation (Client, Salle, Date) -->
                         <div class="card-body pb-2">
@@ -75,7 +39,7 @@
 
                                 <!-- Détails -->
                                 <div class="flex-grow-1">
-                                    <h3 class="fw-bold fs-6 mb-1">
+                                    <h3 class="fw-bold fs-6 mb-1 client-name">
                                         {{ Str::limit($reservation->client->nom . ' ' . $reservation->client->prenom, 20, '...') }}
                                     </h3>
                                     <p class="text-muted small mb-2">
@@ -84,7 +48,7 @@
                                     <div class="d-flex align-items-center gap-2 small text-dark">
                                         <i class="ph-fill ph-clock"></i>
                                         <span
-                                            class="fw-medium">{{ \App\Helpers\DateHelper::convertirDateEnTexte(App\Helpers\DateHelper::convertirDateFormat($reservation->start_date)) }}</span>
+                                            class="fw-medium reservation-date">{{ \App\Helpers\DateHelper::convertirDateEnTexte(App\Helpers\DateHelper::convertirDateFormat($reservation->start_date)) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -119,9 +83,52 @@
                     </div>
                 </a>
             @endforeach
+            <!-- AJOUTER CET ÉLÉMENT -->
+            <div id="noResultsMessage" class="text-center text-muted mt-5 d-none">
+                <i class="ph-xl ph-magnifying-glass"></i>
+                <h5 class="mt-3">Aucune réservation trouvée</h5>
+                <p>Essayez de rechercher avec un autre nom ou une autre date.</p>
+            </div>
         </div>
 
     </section>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchInput');
+        const reservationItems = document.querySelectorAll('.reservation-item');
+        const noResultsMessage = document.getElementById('noResultsMessage');
+
+        function normalize(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        }
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = normalize(this.value);
+            let found = false;
+
+            reservationItems.forEach(function (item) {
+                const nameEl = item.querySelector('.client-name');
+                const dateEl = item.querySelector('.reservation-date');
+
+                const name = nameEl ? normalize(nameEl.textContent) : '';
+                const date = dateEl ? normalize(dateEl.textContent) : '';
+
+                const match = name.includes(searchTerm) || date.includes(searchTerm);
+
+                if (match) {
+                    item.classList.remove('d-none');
+                    found = true;
+                } else {
+                    item.classList.add('d-none');
+                }
+            });
+
+            // Affiche ou masque le message
+            noResultsMessage.classList.toggle('d-none', found);
+        });
+    });
+</script>
+
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <!-- Top Doctor End -->

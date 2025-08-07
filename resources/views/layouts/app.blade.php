@@ -10,11 +10,11 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ config('app.name', 'GESTVILLAGE') }}</title>
-    <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
-
-    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.ico') }}" type="image/x-icon" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4a2f26">
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-    <link rel="manifest" href="{{ asset('manifest.json') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Inclusion de Phosphor Icons -->
@@ -32,9 +32,9 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="{{ asset('assets/img/favicon.ico') }}" type="image/x-icon" />
+        <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
 
-        <link rel="shortcut icon" href="assets/img/fav-logo.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
 
         <!-- Polices & Icônes (CDN) -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -130,7 +130,7 @@
             /* --- STYLES AJOUTÉS POUR LE BOUTON --- */
             .message-button {
                 /* 1. Définir la couleur de fond */
-                background-color: rgb(59,100,62);
+                background-color: rgb(59, 100, 62);
 
                 /* 2. Créer un carré */
                 width: 44px;
@@ -177,6 +177,7 @@
                 --card-bg-color: #ffffff;
                 /* Cartes, fond clair */
                 --text-dark: #4a2f26;
+                --text-primary: #4b2317;
                 /* Texte "LE VILLAGE" */
                 --text-light: #a39387;
                 /* Variante douce du brun */
@@ -531,6 +532,10 @@
                     gap: 1rem !important; /* On réduit l'espace de la classe 'gap-4' */
                 /* } */
             }
+
+            .colo-primary {
+                color: #4b2317;
+            }
         </style>
 
     </head>
@@ -553,8 +558,126 @@
             </div>
         </div>
     </div> --}}
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            const btn = document.createElement('button');
+            btn.textContent = '📲 Installer l’appli mobile ';
+            btn.id = 'installBtn';
+            document.body.appendChild(btn);
+
+            // Appliquer les styles et animations
+            const style = document.createElement('style');
+            style.innerHTML = `
+                #installBtn {
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px;
+                    padding: 12px 24px;
+                    background: #5D4037;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                    opacity: 0;
+                    transform: translateY(20px);
+                    animation: fadeInUp 1s ease forwards;
+                    z-index: 9999;
+                }
+
+                #installBtn:hover {
+                    background-color: #5D4037;
+                    transform: scale(1.05);
+                    transition: background-color 0.3s, transform 0.3s;
+                }
+    
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Action au clic
+            btn.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        btn.remove();
+                        console.log("✅ L'application YODI EVENTS a été installée !");
+                    } else {
+                        console.log("❌ Installation refusée.");
+                    }
+                });
+            });
+        });
+    </script>
     <main class="home-screen">
         <!-- Preloader End -->
+        <!-- =================================== -->
+        <!--   DEBUT DE LA SECTION A FIGER       -->
+        <!-- =================================== -->
+        <div class="sticky-top bg-white shadow-sm ">
+            <!-- Header Section Start -->
+            <section class="d-flex justify-content-between align-items-center home-header-section w-100 px-3 pt-3">
+                <div class="d-flex justify-content-start align-items-center gap-3 mt-3 mb-3">
+                    <div class="profile-img">
+                        <img src="{{ asset('assets/img/logo1.png') }}" alt="Photo de profil" />
+                    </div>
+                    <div>
+                        <h3 class="heading-3 pb-2">
+                            {{ Str::limit(Auth::user()->nom . ' ' . Auth::user()->prenom, 20, '...') }}
+                        </h3>
+                        <p class="d-inline-flex gap-2 location justify-content-start align-items-center">
+                            {{ Auth::user()->role_user }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                    {{-- Bouton Notification --}}
+                    <button
+                        class="btn btn-outline-light position-relative d-flex align-items-center justify-content-center p-2"
+                        style="border: 1px solid #8B5E3C; border-radius: 10px;">
+                        <i class="ph ph-bell fs-5 text-dark"></i>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                        </span>
+                    </button>
+
+                    {{-- Bouton Déconnexion --}}
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="btn btn-outline-light d-flex align-items-center justify-content-center p-2"
+                            style="border: 1px solid #8B5E3C; border-radius: 10px;">
+                            <i class="fas fa-sign-out-alt colo-primary fs-5"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+            <!-- Header Section End -->
+        </div>
+        <!-- =================================== -->
+        <!--     FIN DE LA SECTION A FIGER       -->
+        <!-- =================================== -->
+
         @yield(section: 'content')
         <!-- Footer Menu Start -->
         <div class="footer-menu-area">
@@ -781,6 +904,7 @@
                 </form>
             </div>
         </div>
+
         <!-- Logout Modal End -->
         <!-- Logout Modal End -->
         <!-- ============================= Modal end ========================== -->

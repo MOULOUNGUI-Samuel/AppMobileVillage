@@ -1,0 +1,72 @@
+{
+  "name": "YODI EVENTS",
+  "short_name": "YODI EVENTS",
+  "start_url": "./login",
+  "display": "standalone",
+  "background_color": "#4a2f26",
+  "theme_color": "#4a2f26",
+  "categories": ["mobile", "pwa"],
+  "orientation": "portrait",
+  "description": "YODI EVENTS",
+  "icons": [{
+      "src": "{{ asset('assets/img/logo1.png') }}",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "152x152",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "167x167",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "180x180",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "384x384",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "{{ asset('assets/img/logo1.png') }}') }}",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
