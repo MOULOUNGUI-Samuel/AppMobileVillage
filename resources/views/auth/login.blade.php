@@ -19,25 +19,6 @@
 
 <body>
     <main class="flex-center h-100">
-        <!-- Overlay + Modal -->
-        <!-- MODAL PWA INSTALLATION -->
-        <div id="installOverlay"
-            class="d-flex justify-content-center align-items-center position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75"
-            style="z-index: 9999; display: none;">
-            <div class="bg-white p-4 rounded shadow text-center" style="max-width: 400px; width: 90%;">
-                <h5 class="mb-3">Installer YODI EVENTS</h5>
-                <p>Pour profiter pleinement de l'application, installez-la sur votre téléphone.</p>
-                <p class="text-muted small">Vous pourrez continuer après l'installation.</p>
-
-                <!-- Compte à rebours -->
-                <div id="countdownText" class="mb-3 text-danger fw-bold">Installation disponible dans 15s...</div>
-
-                <!-- Bouton d'installation -->
-                <button id="installBtn" class="btn btn-primary w-100" disabled>
-                    📲 Installer sur mon téléphone
-                </button>
-            </div>
-        </div>
         <section class="sign-in-area">
             <h2 class="heading-2">Se connecter</h2>
             <p class="paragraph-small pt-3">
