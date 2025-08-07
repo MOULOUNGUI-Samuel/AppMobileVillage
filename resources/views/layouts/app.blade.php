@@ -856,7 +856,7 @@
             style.innerHTML = `
                 #installBtn {
                     position: fixed;
-                    top: 20px;
+                    top: 50px;
                     left: 50px;
                     padding: 12px 24px;
                     background: #5D4037;
