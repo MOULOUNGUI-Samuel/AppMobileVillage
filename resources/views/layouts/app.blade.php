@@ -1,36 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<!-- Mirrored from appoinx-app-html.vercel.app/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 08:33:44 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-
-<head>
-    <meta charset="UTF-8" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ config('app.name', 'GESTVILLAGE') }}</title>
-    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
-    <meta name="theme-color" content="#4a2f26">
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Inclusion de Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <!-- <link href="https://unpkg.com/phosphor-icons" rel="stylesheet"> -->
-<link rel="manifest" href="manifest.json">
-    
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{{ config('app.name', 'GESTVILLAGE') }}</title>
-
-        <!-- Meta générée par HTTrack (peut être supprimée) -->
-        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-
         <!-- Favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
 
@@ -51,12 +25,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
         <!-- Manifest PWA -->
+        {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
+            <meta name="theme-color" content="#4a2f26">
         <link rel="manifest" href="{{ asset('manifest.json') }}" />
-
-        <!--
-    NOTE : Il est recommandé de déplacer ces styles internes dans votre fichier 'style.css'
-    pour une meilleure organisation et mise en cache du code.
-    -->
+        
         <style>
             .footer-menu a {
                 text-decoration: none;
@@ -559,7 +531,7 @@
         </div>
     </div> --}}
 
-    
+
     <main class="home-screen">
         <!-- Preloader End -->
         <!-- =================================== -->
@@ -836,24 +808,24 @@
                 </form>
             </div>
         </div>
-<script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js');
+            }
 
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
 
-            const btn = document.createElement('button');
-            btn.textContent = '📲 Installer sur mon téléphone !';
-            btn.id = 'installBtn';
-            document.body.appendChild(btn);
+                const btn = document.createElement('button');
+                btn.textContent = '📲 Installer sur mon téléphone !';
+                btn.id = 'installBtn';
+                document.body.appendChild(btn);
 
-            // Appliquer les styles et animations
-            const style = document.createElement('style');
-            style.innerHTML = `
+                // Appliquer les styles et animations
+                const style = document.createElement('style');
+                style.innerHTML = `
                 #installBtn {
                     position: fixed;
                     top: 50px;
@@ -889,22 +861,22 @@
                     }
                 }
             `;
-            document.head.appendChild(style);
+                document.head.appendChild(style);
 
-            // Action au clic
-            btn.addEventListener('click', () => {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(choice => {
-                    if (choice.outcome === 'accepted') {
-                        btn.remove();
-                        console.log("✅ L'application YODI EVENTS a été installée !");
-                    } else {
-                        console.log("❌ Installation refusée.");
-                    }
+                // Action au clic
+                btn.addEventListener('click', () => {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(choice => {
+                        if (choice.outcome === 'accepted') {
+                            btn.remove();
+                            console.log("✅ L'application YODI EVENTS a été installée !");
+                        } else {
+                            console.log("❌ Installation refusée.");
+                        }
+                    });
                 });
             });
-        });
-    </script>
+        </script>
         <!-- Logout Modal End -->
         <!-- Logout Modal End -->
         <!-- ============================= Modal end ========================== -->
