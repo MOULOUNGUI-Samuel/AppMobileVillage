@@ -269,7 +269,7 @@
 
 <body>
     <!-- Preloader Start -->
-    <div class="preloader active">
+    {{-- <div class="preloader active">
         <div class="flex-center h-100 bgMainColor">
             <div class="main-container flex-center h-100 flex-column">
                 <div class="wave-animation">
@@ -284,7 +284,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <main class="home-screen">
         <!-- Preloader End -->
         @yield(section: 'content')

@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <!-- Header Section Start -->
     <section class="d-flex justify-content-between align-items-center home-header-section w-100">
         <div class="d-flex justify-content-start align-items-center gap-4">
@@ -40,11 +39,10 @@
             </div>
 
             <!-- <div class="search-button">
-                  <button class="flex-center" id="view plusModalOpenButton">
-                    <i class="ph ph-sliders-horizontal"></i>
-                  </button>
-                </div> -->
-        </div>
+                <button class="flex-center" id="view plusModalOpenButton">
+                <i class="ph ph-sliders-horizontal"></i>
+                </button>
+            </div> -->
         </div>
     </section>
 
@@ -54,15 +52,15 @@
     <section class="px-6 pt-6 top-doctor-area">
         <div class="d-flex justify-content-between align-items-center">
             <h3>A venir</h3>
-            <button class="view-all" id="topDoctorModalOpenButton">
+            {{-- <button class="view-all" id="topDoctorModalOpenButton">
                 Voir plus
-            </button>
+            </button> --}}
         </div>
 
         <div class="d-flex flex-column gap-4 pt-4">
 
             <!-- les reservations à venir -->
-            <div class="w-100 top-doctor-item p-4">
+            <div class="w-100  p-4 shadow rounded">
                 <div class="d-flex justify-content-between align-items-start gap-4">
                     <div class="d-flex justify-content-start align-items-start gap-4">
                         <div class="doctor-img flex-center position-relative">
@@ -97,328 +95,12 @@
                 </div>
             </div>
 
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <div class="w-100 top-doctor-item p-4">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div class="d-flex justify-content-start align-items-start gap-4">
-                        <div class="doctor-img flex-center position-relative">
-                            <img src="{{ asset('assets/img/reservation ok.jpg') }}" class="doctor-main-img"
-                                alt="Réservation OK" />
-                            <img src="{{ asset('assets/img/active.png') }}" class="active-badge" alt="Statut actif" />
-                        </div>
-
-                        <div>
-                            <p class="fw-bold name">JULIETTE LONGA</p>
-                            <p class="d-inline-flex justify-content-start align-items-center py-2 flex-wrap">
-                                <span class="category">Mariage</span>
-                                <i class="ph ph-dot fs-4"></i>
-                            </p>
-                            <div class="d-flex justify-content-start align-items-center flex-wrap">
-                                <div class="time">
-                                    <i class="ph-fill ph-clock"></i> 12H00 - 02H00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-4">
-                    <!-- <a href="doctor-profile.html" class="appointment-link d-block p1-color">Reservation</a> -->
-                    <a href="{{ route('doctor.profile') }}" class="appointment-link d-block p1-color">Reservation</a>
-
-                    <div class="custom-border-area position-relative mx-3">
-                        <div class="line-horizontal"></div>
-                    </div>
-                    <p class="fs-5 fw-bold"></p>
-                </div>
-            </div>
-
-            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-            <script src="{{ asset('assets/js/script.js') }}"></script>
-
-
+            
+            
         </div>
-
+        
     </section>
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <script src="{{ asset('assets/js/script.js') }}"></script>
     <!-- Top Doctor End -->
-
 @endsection
