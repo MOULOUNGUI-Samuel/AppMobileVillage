@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4a2f26">
+    <link rel="manifest" href="manifest.json">
   </head>
   <body>
     <main class="flex-center h-100">
