@@ -21,17 +21,18 @@
   <body>
     <main class="flex-center h-100">
       <!-- Overlay + Modal -->
-<!-- Écran PWA d'installation -->
+<!-- MODAL PWA INSTALLATION -->
 <div id="installOverlay" class="d-flex justify-content-center align-items-center position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75" style="z-index: 9999; display: none;">
     <div class="bg-white p-4 rounded shadow text-center" style="max-width: 400px; width: 90%;">
-        <!-- Logo/Image -->
-        <img src="{{ asset('assets/img/logo_yodi.jpg') }}" alt="Logo YODI EVENTS" class="mb-3" style="max-width: 120px;">
-
         <h5 class="mb-3">Installer YODI EVENTS</h5>
-        <p>Pour une meilleure expérience, vous pouvez ajouter cette application sur votre téléphone.</p>
-
+        <p>Pour profiter pleinement de l'application, installez-la sur votre téléphone.</p>
+        <p class="text-muted small">Vous pourrez continuer après l'installation.</p>
+        
+        <!-- Compte à rebours -->
+        <div id="countdownText" class="mb-3 text-danger fw-bold">Installation disponible dans 15s...</div>
+        
         <!-- Bouton d'installation -->
-        <button id="installBtn" class="btn btn-primary w-100">
+        <button id="installBtn" class="btn btn-primary w-100" disabled>
             📲 Installer sur mon téléphone
         </button>
     </div>
@@ -106,32 +107,64 @@
     }
 
     let deferredPrompt;
-
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
 
-        const overlay = document.getElementById('installOverlay');
+        // Création du bloc HTML
+        const installContainer = document.createElement('div');
+        installContainer.id = 'installPromptContainer';
+        installContainer.innerHTML = `
+            <div id="installOverlay" class="d-flex justify-content-center align-items-center position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75" style="z-index: 9999; display: flex;">
+                <div class="bg-white p-4 rounded shadow text-center" style="max-width: 400px; width: 90%;">
+                    <h5 class="mb-3">Installer YODI EVENTS</h5>
+                    <p>Pour profiter pleinement de l'application, installez-la sur votre téléphone.</p>
+                    <p class="text-muted small">Vous pourrez continuer après l'installation.</p>
+                    
+                    <!-- Compte à rebours -->
+                    <div id="countdownText" class="mb-3 text-danger fw-bold">Installation disponible dans 15s...</div>
+                    
+                    <!-- Bouton d'installation -->
+                    <button id="installBtn" class="btn btn-primary w-100" disabled>
+                        📲 Installer sur mon téléphone
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(installContainer);
+
+        // Démarre le compte à rebours de 15s
+        let countdown = 15;
+        const countdownText = document.getElementById('countdownText');
         const installBtn = document.getElementById('installBtn');
 
-        // Affiche le bloc d’installation
-        overlay.style.display = 'flex';
+        const interval = setInterval(() => {
+            countdown--;
+            countdownText.textContent = `Installation disponible dans ${countdown}s...`;
 
+            if (countdown <= 0) {
+                clearInterval(interval);
+                countdownText.textContent = "Vous pouvez maintenant installer l'application.";
+                installBtn.disabled = false;
+            }
+        }, 1000);
+
+        // Clique sur le bouton "Installer"
         installBtn.addEventListener('click', () => {
             deferredPrompt.prompt();
-
-            deferredPrompt.userChoice.then(choice => {
-                if (choice.outcome === 'accepted') {
-                    console.log("✅ Application installée !");
-                    overlay.remove(); // Masquer le bloc
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    document.getElementById('installPromptContainer').remove();
+                    console.log("✅ L'application YODI EVENTS a été installée !");
                 } else {
                     console.log("❌ Installation refusée.");
-                    // Tu peux laisser le bloc affiché si tu veux insister
                 }
             });
         });
     });
 </script>
+
+
     <!-- Js Dependencies -->
     <script src="{{ asset('assets/js/plugins/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
