@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="shortcut icon"
-      href="{{ asset('assets/img/fav-logo.png') }}"
+      href="{{ asset('assets/img/logo1.png') }}"
       type="image/x-icon"
     />
     <title>Sign In - Appoinx HTML App</title>
@@ -20,6 +20,23 @@
   </head>
   <body>
     <main class="flex-center h-100">
+      <!-- Overlay + Modal -->
+<!-- MODAL PWA INSTALLATION -->
+<div id="installOverlay" class="d-flex justify-content-center align-items-center position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75" style="z-index: 9999; display: none;">
+    <div class="bg-white p-4 rounded shadow text-center" style="max-width: 400px; width: 90%;">
+        <h5 class="mb-3">Installer YODI EVENTS</h5>
+        <p>Pour profiter pleinement de l'application, installez-la sur votre téléphone.</p>
+        <p class="text-muted small">Vous pourrez continuer après l'installation.</p>
+        
+        <!-- Compte à rebours -->
+        <div id="countdownText" class="mb-3 text-danger fw-bold">Installation disponible dans 15s...</div>
+        
+        <!-- Bouton d'installation -->
+        <button id="installBtn" class="btn btn-primary w-100" disabled>
+            📲 Installer sur mon téléphone
+        </button>
+    </div>
+</div>
       <section class="sign-in-area">
         <h2 class="heading-2">Se connecter</h2>
         <p class="paragraph-small pt-3">
@@ -85,74 +102,51 @@
       </section>
     </main>
 <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
 
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
+    let deferredPrompt;
 
-            const btn = document.createElement('button');
-            btn.textContent = '📲 Installer sur mon téléphone !';
-            btn.id = 'installBtn';
-            document.body.appendChild(btn);
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
 
-            // Appliquer les styles et animations
-            const style = document.createElement('style');
-            style.innerHTML = `
-                #installBtn {
-                    position: fixed;
-                    top: 20px;
-                    left: 50px;
-                    padding: 12px 24px;
-                    background: #5D4037;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    font-size: 16px;
-                    cursor: pointer;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-                    opacity: 0;
-                    transform: translateY(20px);
-                    animation: fadeInUp 1s ease forwards;
-                    z-index: 9999;
+        const overlay = document.getElementById('installOverlay');
+        const installBtn = document.getElementById('installBtn');
+        const countdownText = document.getElementById('countdownText');
+
+        overlay.style.display = 'flex';
+
+        let countdown = 15;
+        countdownText.textContent = `Installation disponible dans ${countdown}s...`;
+        installBtn.disabled = true;
+
+        const interval = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                countdownText.textContent = `Installation disponible dans ${countdown}s...`;
+            } else {
+                clearInterval(interval);
+                countdownText.textContent = "Vous pouvez maintenant installer.";
+                installBtn.disabled = false;
+            }
+        }, 1000);
+
+        installBtn.addEventListener('click', () => {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(choice => {
+                if (choice.outcome === 'accepted') {
+                    console.log("✅ Installation acceptée.");
+                    overlay.remove(); // débloque l'écran
+                } else {
+                    console.log("❌ Installation refusée.");
+                    // Tu peux relancer plus tard ou laisser le blocage selon ta logique
                 }
-
-                #installBtn:hover {
-                    background-color: #5D4037;
-                    transform: scale(1.05);
-                    transition: background-color 0.3s, transform 0.3s;
-                }
-    
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-
-            // Action au clic
-            btn.addEventListener('click', () => {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(choice => {
-                    if (choice.outcome === 'accepted') {
-                        btn.remove();
-                        console.log("✅ L'application YODI EVENTS a été installée !");
-                    } else {
-                        console.log("❌ Installation refusée.");
-                    }
-                });
             });
         });
-    </script>
+    });
+</script>
     <!-- Js Dependencies -->
     <script src="{{ asset('assets/js/plugins/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
