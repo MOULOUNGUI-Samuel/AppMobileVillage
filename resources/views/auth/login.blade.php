@@ -21,18 +21,17 @@
   <body>
     <main class="flex-center h-100">
       <!-- Overlay + Modal -->
-<!-- MODAL PWA INSTALLATION -->
+<!-- Écran PWA d'installation -->
 <div id="installOverlay" class="d-flex justify-content-center align-items-center position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75" style="z-index: 9999; display: none;">
     <div class="bg-white p-4 rounded shadow text-center" style="max-width: 400px; width: 90%;">
+        <!-- Logo/Image -->
+        <img src="{{ asset('assets/img/logo_yodi.jpg') }}" alt="Logo YODI EVENTS" class="mb-3" style="max-width: 120px;">
+
         <h5 class="mb-3">Installer YODI EVENTS</h5>
-        <p>Pour profiter pleinement de l'application, installez-la sur votre téléphone.</p>
-        <p class="text-muted small">Vous pourrez continuer après l'installation.</p>
-        
-        <!-- Compte à rebours -->
-        <div id="countdownText" class="mb-3 text-danger fw-bold">Installation disponible dans 15s...</div>
-        
+        <p>Pour une meilleure expérience, vous pouvez ajouter cette application sur votre téléphone.</p>
+
         <!-- Bouton d'installation -->
-        <button id="installBtn" class="btn btn-primary w-100" disabled>
+        <button id="installBtn" class="btn btn-primary w-100">
             📲 Installer sur mon téléphone
         </button>
     </div>
@@ -114,34 +113,20 @@
 
         const overlay = document.getElementById('installOverlay');
         const installBtn = document.getElementById('installBtn');
-        const countdownText = document.getElementById('countdownText');
 
+        // Affiche le bloc d’installation
         overlay.style.display = 'flex';
-
-        let countdown = 15;
-        countdownText.textContent = `Installation disponible dans ${countdown}s...`;
-        installBtn.disabled = true;
-
-        const interval = setInterval(() => {
-            countdown--;
-            if (countdown > 0) {
-                countdownText.textContent = `Installation disponible dans ${countdown}s...`;
-            } else {
-                clearInterval(interval);
-                countdownText.textContent = "Vous pouvez maintenant installer.";
-                installBtn.disabled = false;
-            }
-        }, 1000);
 
         installBtn.addEventListener('click', () => {
             deferredPrompt.prompt();
+
             deferredPrompt.userChoice.then(choice => {
                 if (choice.outcome === 'accepted') {
-                    console.log("✅ Installation acceptée.");
-                    overlay.remove(); // débloque l'écran
+                    console.log("✅ Application installée !");
+                    overlay.remove(); // Masquer le bloc
                 } else {
                     console.log("❌ Installation refusée.");
-                    // Tu peux relancer plus tard ou laisser le blocage selon ta logique
+                    // Tu peux laisser le bloc affiché si tu veux insister
                 }
             });
         });
