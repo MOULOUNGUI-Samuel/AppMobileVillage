@@ -10,7 +10,7 @@
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <meta name="theme-color" content="#4a2f26">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json" />
 </head>
 
 <body style="background-color: #e2dccccd">

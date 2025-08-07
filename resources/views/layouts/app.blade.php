@@ -27,7 +27,7 @@
         <!-- Manifest PWA -->
         {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
             <meta name="theme-color" content="#4a2f26">
-        <link rel="manifest" href="{{ asset('manifest.json') }}" />
+        <link rel="manifest" href="manifest.json" />
         
         <style>
             .footer-menu a {
