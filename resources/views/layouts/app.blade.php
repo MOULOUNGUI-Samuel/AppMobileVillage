@@ -540,7 +540,7 @@
         <div class="sticky-top bg-white shadow-sm ">
             <!-- Header Section Start -->
             <section class="d-flex justify-content-between align-items-center home-header-section w-100 px-3 pt-3">
-                <div class="d-flex justify-content-start align-items-center gap-3 mt-3 mb-3">
+                <div class="d-flex justify-content-start align-items-center gap-3 mb-3">
                     <div class="profile-img">
                         <img src="{{ asset('assets/img/logo1.png') }}" alt="Photo de profil" />
                     </div>
@@ -557,7 +557,7 @@
                 <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
                     {{-- Bouton Notification --}}
                     <button
-                        class="btn btn-outline-light position-relative d-flex align-items-center justify-content-center p-2"
+                        class="btn btn-outline-light position-relative d-flex align-items-center justify-content-center p-2" id="notificationModalOpenButton"
                         style="border: 1px solid #8B5E3C; border-radius: 10px;">
                         <i class="ph ph-bell fs-5 text-dark"></i>
                         <span
@@ -648,8 +648,8 @@
     {{-- Si la route actuelle N'EST PAS 'calendrier', alors on affiche le contenu --}}
     <!-- @if (!Route::is('calendar'))
 -->
-    <div class="position-fixed top-0 start-0 bottom-0 end-0 notificationModal overflow-auto fullPageModalClose">
-        <div class="px-6 pt-8 notification-top-area">
+<div class="position-fixed top-0 start-0 bottom-0 end-0 notificationModal overflow-auto fullPageModalClose" style="z-index: 9999;">
+    <div class="px-6 pt-8 notification-top-area">
             <div class="d-flex justify-content-start align-items-center gap-4 py-3">
                 <button class="back-button flex-center" id="notificationModalCloseButton">
                     <i class="ph ph-caret-left"></i>
@@ -751,7 +751,7 @@
 
     <!-- Doctor Speciality Modal Start (Finance) -->
     <div
-        class="px-6 pb-8 position-fixed top-0 start-0 bottom-0 end-0 specialityModal fullPageModalClose overflow-auto">
+        class="px-6 pb-8 position-fixed top-0 start-0 bottom-0 end-0 specialityModal fullPageModalClose overflow-auto" style="z-index: 9999;">
         <div class="px-6 pt-8 notification-top-area">
             <div class="d-flex justify-content-start align-items-center gap-4 py-3">
                 <button class="back-button flex-center" id="specialityModalCloseButton">

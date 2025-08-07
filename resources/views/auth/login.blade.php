@@ -7,7 +7,8 @@
     <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}" type="image/x-icon" />
     <title>YODI EVENTS</title>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-
+ <!-- Meta générée par HTTrack (peut être supprimée) -->
+ <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <meta name="theme-color" content="#4a2f26">
     <link rel="manifest" href="manifest.json" />
