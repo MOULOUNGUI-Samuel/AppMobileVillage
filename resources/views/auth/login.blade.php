@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
@@ -7,11 +7,13 @@
     <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}" type="image/x-icon" />
     <title>YODI EVENTS</title>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-    <!-- Meta générée par HTTrack (peut être supprimée) -->
-    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- ============ CORRECTIONS PWA ============ -->
     <meta name="theme-color" content="#4a2f26">
-    <link rel="manifest" href="manifest.json">
+    <!-- Le chemin doit être absolu depuis la racine publique -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- ========================================= -->
 </head>
 
 <body style="background-color: #e2dccccd">
@@ -66,71 +68,71 @@
         });
     </script>
 
+    <!-- ============ SCRIPT D'INSTALLATION PWA CORRIGÉ ============ -->
     <script>
+        // On enregistre le service worker depuis le chemin racine public
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker enregistré avec succès:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('❌ Échec de l\'enregistrement du Service Worker:', error);
+                    });
+            });
         }
 
+        // Votre code pour le bouton d'installation personnalisé (il est déjà bon !)
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
 
+            // Supprime un ancien bouton s'il existe
+            const oldBtn = document.getElementById('installBtn');
+            if(oldBtn) oldBtn.remove();
+            
             const btn = document.createElement('button');
             btn.textContent = '📲 Installer sur mon téléphone !';
             btn.id = 'installBtn';
             document.body.appendChild(btn);
 
-            // Appliquer les styles et animations
             const style = document.createElement('style');
             style.innerHTML = `
-            #installBtn {
-                 position: fixed;
-              top: 50px;
-              left: 50px;
-              padding: 12px 24px;
-              background: #5D4037;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                font-size: 16px;
-                cursor: pointer;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-                opacity: 0;
-                transform: translateY(20px);
-                animation: fadeInUp 1s ease forwards;
-                z-index: 9999;
-            }
-
-            #installBtn:hover {
-                background-color: #5D4037;
-                transform: scale(1.05);
-                transition: background-color 0.3s, transform 0.3s;
-            }
-
-            @keyframes fadeInUp {
-                from {
+                #installBtn {
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    padding: 12px 24px;
+                    background: #4a2f26;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
                     opacity: 0;
-                    transform: translateY(20px);
+                    animation: fadeInUp 0.5s 0.5s ease forwards;
+                    z-index: 9999;
                 }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
+                @keyframes fadeInUp {
+                    to { opacity: 1; transform: translateX(-50%) translateY(0); }
                 }
-            }
-        `;
+            `;
             document.head.appendChild(style);
 
-            // Action au clic
             btn.addEventListener('click', () => {
+                btn.style.display = 'none';
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(choice => {
                     if (choice.outcome === 'accepted') {
-                        btn.remove();
-                        console.log("✅ L'application YODI EVENTS a été installée !");
+                        console.log("✅ L'application a été installée !");
                     } else {
-                        console.log("❌ Installation refusée.");
+                        console.log("❌ L'installation a été refusée.");
                     }
+                    deferredPrompt = null;
                 });
             });
         });
