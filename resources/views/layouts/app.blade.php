@@ -553,7 +553,6 @@
                         </p>
                     </div>
                 </div>
-
                 <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
                     {{-- Bouton Notification --}}
                     <button
