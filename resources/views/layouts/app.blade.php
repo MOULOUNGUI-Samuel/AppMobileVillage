@@ -546,9 +546,10 @@
                     </div>
                     <div>
                         <h5 class="heading-3 pb-2" style="font-size: 15px">
-                            {{ Str::limit(Auth::user()->nom , 20, '...') }}
+                            {{ Str::limit(Auth::user()->nom, 20, '...') }}
                         </h5>
-                        <p class="d-inline-flex gap-2 location justify-content-start align-items-center"  style="font-size: 13px">
+                        <p class="d-inline-flex gap-2 location justify-content-start align-items-center"
+                            style="font-size: 13px">
                             {{ Auth::user()->role_user }}
                         </p>
                     </div>
@@ -614,7 +615,7 @@
                         <!-- Dashboard -->
                         <a href="{{ route('dashboard') }}" class="flex-fill text-center">
                             <i
-                                class="ph ph-house-line link-item {{ request()->routeIs('dashboard','detailsReservation') ? 'active' : '' }}"></i>
+                                class="ph ph-house-line link-item {{ request()->routeIs('dashboard', 'detailsReservation') ? 'active' : '' }}"></i>
                         </a>
 
                         <!-- Calendrier -->
@@ -625,12 +626,14 @@
 
                         <!-- Finances -->
                         <a href="{{ route('liscteCaisse') }}" class="flex-fill text-center">
-                            <i class="ph ph-wallet link-item {{ request()->routeIs('liscteCaisse') ? 'active' : '' }}"></i>
+                            <i
+                                class="ph ph-wallet link-item {{ request()->routeIs('liscteCaisse') ? 'active' : '' }}"></i>
                         </a>
 
 
                         <a href="{{ route('usersListe') }}" class="flex-fill text-center">
-                            <i class="ph ph-users link-item {{ request()->routeIs('usersListe') ? 'active' : '' }}"></i>
+                            <i
+                                class="ph ph-users link-item {{ request()->routeIs('usersListe') ? 'active' : '' }}"></i>
                         </a>
                     </div>
                 </div>
@@ -660,7 +663,7 @@
     {{-- Si la route actuelle N'EST PAS 'calendrier', alors on affiche le contenu --}}
     <!-- @if (!Route::is('calendar'))
 -->
-    
+
     <div class="position-fixed top-0 start-0 bottom-0 end-0 notificationModal overflow-auto fullPageModalClose"
         style="z-index: 9999;">
         <div class="px-6 pt-8 notification-top-area">
@@ -828,8 +831,8 @@
                 style.innerHTML = `
                 #installBtn {
                     position: fixed;
-                    top: 50px;
-                    left: 50px;
+                     top: 50px;
+                    left: 50%;
                     padding: 12px 24px;
                     background: #5D4037;
                     color: white;

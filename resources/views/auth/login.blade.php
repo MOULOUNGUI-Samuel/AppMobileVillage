@@ -102,7 +102,7 @@
             style.innerHTML = `
                 #installBtn {
                     position: fixed;
-                    bottom: 20px;
+                   top: 50px;
                     left: 50%;
                     transform: translateX(-50%);
                     padding: 12px 24px;
