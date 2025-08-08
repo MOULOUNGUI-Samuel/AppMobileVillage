@@ -540,7 +540,7 @@
         <div class="sticky-top bg-white shadow-sm ">
             <!-- Header Section Start -->
             <section class="d-flex justify-content-between align-items-center home-header-section w-100 px-3">
-                <div class="d-flex justify-content-start align-items-center gap-3 mb-3" style="margin-top: -10px">
+                <div class="d-flex justify-content-start align-items-center gap-3 mb-3" style="margin-top: -15px">
                     <div class="profile-img">
                         <img src="{{ asset('assets/img/logo1.png') }}" alt="Photo de profil" />
                     </div>
@@ -553,7 +553,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap" style="margin-top: -25px">
                     {{-- Bouton Notification --}}
                     <button
                         class="btn btn-outline-light position-relative d-flex align-items-center justify-content-center p-2"
