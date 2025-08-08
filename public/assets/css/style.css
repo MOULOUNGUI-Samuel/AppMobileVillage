@@ -1103,67 +1103,41 @@ textarea:focus {
     color: var(--white);
 }
 
-.upcoming-slider-area .swiper .swiper-slide {
-    border-radius: 20px;
-    background-color: var(--g50);
-}
-.upcoming-slider-area .swiper .swiper-slide .slider-desc {
-    padding: 20px 0px 20px 20px;
-}
-.upcoming-slider-area .swiper .swiper-slide .slider-desc .desc {
-    padding-top: 40px;
-}
-@media screen and (max-width: 400px) {
-    .upcoming-slider-area .swiper .swiper-slide .slider-desc .desc {
-        padding-top: 28px;
-    }
-}
-.upcoming-slider-area .swiper .swiper-slide .slider-desc .slider-heading {
-    font-size: 18px;
-    font-weight: 600;
-}
-.upcoming-slider-area .swiper .swiper-slide .doctor-img-area .doctor-img {
-    margin-top: -50px;
-    min-height: 240px;
-    min-width: 180px;
-    position: relative;
-    z-index: 20;
-}
-.upcoming-slider-area .swiper .swiper-slide .doctor-img-area .background-img {
-    position: absolute;
-    top: 0;
-    bottom: 0px;
-    right: 0px;
-    height: 100%;
-    z-index: 10;
-    min-height: 220px;
-    min-width: 200px;
-    border-radius: 0 20px 20px 0;
-    overflow: hidden;
-}
-@media screen and (max-width: 380px) {
-    .upcoming-slider-area .swiper .swiper-slide {
-        flex-direction: column;
-    }
+/* Conteneur principal du slider */
+.cash-box-slider {
+    padding: 1rem; /* Ajoute un peu d'air autour du slider */
 }
 
-.doctor-specialist-area .view-all {
-    color: var(--p1);
-    font-weight: 600;
+/* Style de base pour la carte de caisse */
+.cash-box-slider .cash-box-card {
+    border-radius: 1.25rem; /* 20px, comme vous le vouliez */
+    background-color: var(--g50, #ffffff); /* Utilise votre variable --g50, ou blanc par défaut */
+    border: 1px solid var(--borderColor, #e9ecef); /* Utilise votre variable de bordure */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation douce au survol */
+    overflow: hidden; /* Assure que rien ne dépasse des coins arrondis */
 }
-.doctor-specialist-area .speciality-logo {
-    background-color: var(--p1);
-    border-radius: 4px;
-    font-size: 24px;
-    color: var(--white);
+
+/* Effet de survol pour rendre la carte interactive */
+.cash-box-slider .cash-box-card:hover {
+    transform: translateY(-5px); /* La carte se soulève légèrement */
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important; /* Ombre plus prononcée */
 }
-.doctor-specialist-area .swiper-slide {
-    border: 1px solid var(--borderColor);
-    border-radius: 8px;
-    min-width: 200px;
+
+/* Style pour le titre de la carte */
+.cash-box-slider .cash-box-card .card-header h5 {
+    color: var(--p1, #007bff); /* Utilise votre couleur primaire pour le titre */
 }
-.doctor-specialist-area .desc {
-    font-size: 12px;
+
+/* Style pour le montant du solde */
+.cash-box-slider .cash-box-card .cash-balance {
+    color: #212529; /* Couleur foncée pour une bonne lisibilité */
+}
+
+/* Style pour le lien "Détails" */
+.cash-box-slider .cash-box-card .details-link {
+    font-size: 0.9rem;
+    color: var(--p1, #007bff) !important; /* Force la couleur primaire */
+    text-decoration: none !important;
 }
 
 .favouriteModal {
@@ -1356,7 +1330,7 @@ textarea:focus {
 .notification-top-area .back-button {
     font-size: 16px;
     color: var(--white);
-    background-color: var(--p1);
+    background-color: #4b2317;
     padding: 12px;
     border-radius: 100%;
 }
@@ -2344,7 +2318,7 @@ textarea::placeholder {
     font-size: 24px;
     padding: 10px;
     border-radius: 4px;
-    background-color: var(--p1);
+    background-color:#4b2317;
 }
 .invite-friends-area .item .message-button a {
     color: white;

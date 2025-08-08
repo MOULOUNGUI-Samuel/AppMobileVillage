@@ -22,4 +22,11 @@ class Caisse extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function mouvements()
+    {
+        // Une caisse "a plusieurs" (hasMany) mouvements.
+        // Assurez-vous que le nom du modèle 'MouvementCaisse' est correct.
+        return $this->hasMany(MouvementCaisse::class);
+    }
 }

@@ -7,7 +7,7 @@
     <!-- Top Doctor Start -->
     <section class="px-6 pt-6 top-doctor-area">
         <div class="d-flex justify-content-between align-items-center">
-            <h5>A venir</h3>
+            <h5 class="color-primary">A venir</h3>
         </div>
 
         <div class="d-flex flex-column gap-4 pt-4">
@@ -39,16 +39,16 @@
 
                                 <!-- Détails -->
                                 <div class="flex-grow-1">
-                                    <h3 class="fw-bold fs-6 mb-1 client-name">
+                                    <h3 class="fw-bold fs-6 mb-1 client-name color-primary">
                                         {{ Str::limit($reservation->client->nom . ' ' . $reservation->client->prenom, 20, '...') }}
                                     </h3>
-                                    <p class="text-muted small mb-2">
+                                    <p class="text-muted small mb-2 ">
                                         Salle: {{ $reservation->salle->nom }}
                                     </p>
                                     <div class="d-flex align-items-center gap-2 small text-dark">
                                         <i class="ph-fill ph-clock"></i>
                                         <span
-                                            class="fw-medium reservation-date">{{ \App\Helpers\DateHelper::convertirDateEnTexte(App\Helpers\DateHelper::convertirDateFormat($reservation->start_date)) }}</span>
+                                            class="fw-medium reservation-date color-primary">{{ \App\Helpers\DateHelper::convertirDateEnTexte(App\Helpers\DateHelper::convertirDateFormat($reservation->start_date)) }}</span>
                                     </div>
                                 </div>
                             </div>

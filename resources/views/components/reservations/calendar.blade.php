@@ -309,20 +309,20 @@
             <a href="{{ route('dashboard') }}" class="p1-color back-button flex-center">
                 <i class="ph ph-caret-left"></i>
             </a>
-            <h2>Mon calendrier</h2>
+            <h2 class="color-primary">Mon calendrier</h2>
         </div>
     </section>
 
     <!-- La balise ouvrante est ici... -->
     <div class="schedule-section w-100 px-6 pt-8 overflow-hidden mx-1" style="margin-top: -30px">
         <div class="d-flex justify-content-between align-items-center pb-5">
-            <h6 class="ml-2">Mes réservations</h6>
+            <h6 class="ml-2 color-primary">Mes réservations</h6>
             <div class="flex-center gap-3">
                 <button id="prev-month-btn" class="month-navigation-button flex-center">
                     <i class="ph ph-caret-left" style="font-size: 13px"></i>
                 </button>
                 <div id="calendarModalOpenButton" style="cursor: pointer;">
-                    <p id="currentMonthDisplay" class="fw-bold text-center">Juillet 2025</p>
+                    <p id="currentMonthDisplay" class="fw-bold text-center color-primary">Juillet 2025</p>
                 </div>
                 <button id="next-month-btn" class="month-navigation-button flex-center">
                     <i class="ph ph-caret-right" style="font-size: 13px"></i>

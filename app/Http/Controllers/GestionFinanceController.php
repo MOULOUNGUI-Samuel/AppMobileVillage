@@ -15,53 +15,49 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class GestionFinanceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        //
         try {
             $entreprise_id = Auth::user()->entreprise_id;
-            $caisses = Caisse::with('entreprise', 'user')
+
+            // 1. On charge toutes les caisses ET leurs mouvements associés en une seule fois
+            // C'est la méthode la plus performante (Eager Loading)
+            $caisses = Caisse::with(['user', 'mouvements' => function ($query) {
+                // On trie les mouvements de chaque caisse par date
+                $query->orderBy('created_at', 'desc');
+            }])
                 ->where('entreprise_id', $entreprise_id)
                 ->get();
 
-            $data_caisse = [];
-
+            // 2. On crée un "dictionnaire" de mouvements pour le JavaScript.
+            // La clé sera l'ID de la caisse, et la valeur sera la liste de ses mouvements formatés.
+            $mouvementsByCaisse = [];
             foreach ($caisses as $caisse) {
-                // On récupère les mouvements de caisse pour la caisse courante
-                $mouvementCaisses = MouvementCaisse::with([
-                    'reservation' => function ($query) {
-                        $query->with('user'); // Charge la relation user à partir de reservation
-                    }
-                ])
-                    ->where('caisse_id', $caisse->id)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
-
-                // On accumule la caisse et ses mouvements dans le tableau
-                $data_caisse[] = (object) [
-                    'caisse' => $caisse,
-                    'mouvementCaisses' => $mouvementCaisses,
-                ];
+                $mouvementsByCaisse[$caisse->id] = $caisse->mouvements->map(function ($mouvement) {
+                    return [
+                        'id' => $mouvement->id, // <--- AJOUTER CETTE LIGNE
+                        'motif' =>  Str::limit($mouvement->nature_mouvement , 12, '...') ?? 'Transaction',
+                        'type' => $mouvement->type_mouvement,
+                        'formatted_date' => $mouvement->created_at->translatedFormat('d F Y à H:i'),
+                        'formatted_amount' => ($mouvement->type_mouvement == 'ENTREE' ? '+' : '-') . ' ' . number_format($mouvement->montant, 0, ',', ' '),
+                        'css_class' => $mouvement->type_mouvement == 'ENTREE' ? 'positive' : 'negative',
+                        'icon' => $mouvement->type_mouvement == 'ENTREE' ? 'ph-bold ph-arrow-down' : 'ph-bold ph-arrow-up',
+                        'icon_bg_class' => $mouvement->type_mouvement == 'ENTREE' ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger',
+                    ];
+                });
             }
-            // dd($data_caisse);
 
-            $users = User::with('entreprise')
-                ->where('entreprise_id', $entreprise_id)
-                ->get();
-            $naturemouvements = NatureMouvement::with('entreprise')
-                ->where('entreprise_id', $entreprise_id)
-                ->orderBy('created_at', 'desc')
-                ->get();
-
-            return view('components.finances.caisses', compact('caisses', 'data_caisse', 'users', 'naturemouvements'));
+            // On envoie les deux variables à la vue
+            return view('components.finances.caisses', compact('caisses', 'mouvementsByCaisse'));
         } catch (Exception $e) {
-            // En cas d'erreur, rediriger en renvoyant un message d'erreur
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

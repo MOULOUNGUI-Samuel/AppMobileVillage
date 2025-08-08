@@ -505,7 +505,7 @@
             /* } */
         }
 
-        .colo-primary {
+        .color-primary {
             color: #4b2317;
         }
     </style>
@@ -546,7 +546,7 @@
                     </div>
                     <div>
                         <h5 class="heading-3 pb-2" style="font-size: 15px">
-                            {{ Str::limit(Auth::user()->nom . ' ' . Auth::user()->prenom, 20, '...') }}
+                            {{ Str::limit(Auth::user()->nom , 20, '...') }}
                         </h5>
                         <p class="d-inline-flex gap-2 location justify-content-start align-items-center"  style="font-size: 13px">
                             {{ Auth::user()->role_user }}
@@ -557,8 +557,8 @@
                     {{-- Bouton Notification --}}
                     <button
                         class="btn btn-outline-light position-relative d-flex align-items-center justify-content-center p-2"
-                        id="notificationModalOpenButton" style="border: 1px solid #8B5E3C; border-radius: 10px;">
-                        <i class="ph ph-bell fs-5 text-dark"></i>
+                        id="notificationModalOpenButton" style="border: 1px solid #4b2317; border-radius: 10px;">
+                        <i class="ph ph-bell fs-5 color-primary"></i>
                         <span
                             class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
                         </span>
@@ -567,8 +567,8 @@
                     {{-- Bouton Déconnexion --}}
                     <button
                         class="btn btn-outline-light d-flex align-items-center justify-content-center p-2 logoutModalButton"
-                        style="border: 1px solid #8B5E3C; border-radius: 10px;">
-                        <i class="fas fa-sign-out-alt colo-primary fs-5"></i>
+                        style="border: 1px solid #4b2317; border-radius: 10px;">
+                        <i class="fas fa-sign-out-alt color-primary fs-5"></i>
                     </button>
                     {{-- <button class="appointment-link fill d-block w-100 logoutModalButton">
                         Cancel
@@ -624,15 +624,13 @@
                         </a>
 
                         <!-- Finances -->
-                        <a href="{{ route('finances') }}" class="flex-fill text-center">
-                            <i class="ph ph-wallet link-item {{ request()->routeIs('finances') ? 'active' : '' }}"></i>
+                        <a href="{{ route('liscteCaisse') }}" class="flex-fill text-center">
+                            <i class="ph ph-wallet link-item {{ request()->routeIs('liscteCaisse') ? 'active' : '' }}"></i>
                         </a>
 
 
-                        <a href="{{ route('utilisateurs') }}" class="flex-fill text-center">
-                            {{-- Pas besoin de vérifier si la route est active ici, car ce bloc n'est jamais affiché si elle l'est --}}
-                            <i
-                                class="ph ph-users link-item {{ request()->routeIs('utilisateurs') ? 'active' : '' }}"></i>
+                        <a href="{{ route('usersListe') }}" class="flex-fill text-center">
+                            <i class="ph ph-users link-item {{ request()->routeIs('usersListe') ? 'active' : '' }}"></i>
                         </a>
                     </div>
                 </div>
@@ -644,15 +642,6 @@
                             <img src="assets/img/plus-icon-bg.png" class="" alt="" />
                             <i class="ph ph-plus-circle"></i>
                         </button>
-                        <!-- <div class="d-flex justify-content-between align-items-center">
-                            <a href="{{ route('profile.settings') }}" id="specialityModalOpenButton">
-                            <button class="btn p-0 border-0 bg-transparent">
-                                <img src="assets/img/plus-icon-bg.png" alt="" />
-                                <i class="ph ph-plus"></i>
-                            </button>
-                            </a>
-                        </div> -->
-
                     </div>
                 </div>
             </div>

@@ -33,7 +33,7 @@ class EmployerController extends Controller
             ];
         }
 
-        return view('components.utilisateurs.liste_employers', compact('employers', 'Tab_permissions'));
+        return view('components.users.listeUser', compact('employers', 'Tab_permissions'));
     }
 
     /**
