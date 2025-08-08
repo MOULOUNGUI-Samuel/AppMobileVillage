@@ -539,16 +539,16 @@
         <!-- =================================== -->
         <div class="sticky-top bg-white shadow-sm ">
             <!-- Header Section Start -->
-            <section class="d-flex justify-content-between align-items-center home-header-section w-100 px-3 pt-3">
-                <div class="d-flex justify-content-start align-items-center gap-3 mb-3">
+            <section class="d-flex justify-content-between align-items-center home-header-section w-100 px-3">
+                <div class="d-flex justify-content-start align-items-center gap-3 mb-3" style="margin-top: -10px">
                     <div class="profile-img">
                         <img src="{{ asset('assets/img/logo1.png') }}" alt="Photo de profil" />
                     </div>
                     <div>
-                        <h3 class="heading-3 pb-2">
+                        <h5 class="heading-3 pb-2" style="font-size: 15px">
                             {{ Str::limit(Auth::user()->nom . ' ' . Auth::user()->prenom, 20, '...') }}
-                        </h3>
-                        <p class="d-inline-flex gap-2 location justify-content-start align-items-center">
+                        </h5>
+                        <p class="d-inline-flex gap-2 location justify-content-start align-items-center"  style="font-size: 13px">
                             {{ Auth::user()->role_user }}
                         </p>
                     </div>
