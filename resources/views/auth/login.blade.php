@@ -7,11 +7,11 @@
     <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}" type="image/x-icon" />
     <title>YODI EVENTS</title>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
- <!-- Meta générée par HTTrack (peut être supprimée) -->
- <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <!-- Meta générée par HTTrack (peut être supprimée) -->
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <meta name="theme-color" content="#4a2f26">
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="manifest.json">
 </head>
 
 <body style="background-color: #e2dccccd">
@@ -65,6 +65,7 @@
             });
         });
     </script>
+
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
@@ -83,41 +84,41 @@
             // Appliquer les styles et animations
             const style = document.createElement('style');
             style.innerHTML = `
-          #installBtn {
-              position: fixed;
+            #installBtn {
+                 position: fixed;
               top: 50px;
               left: 50px;
               padding: 12px 24px;
               background: #5D4037;
-              color: white;
-              border: none;
-              border-radius: 8px;
-              font-size: 16px;
-              cursor: pointer;
-              box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-              opacity: 0;
-              transform: translateY(20px);
-              animation: fadeInUp 1s ease forwards;
-              z-index: 9999;
-          }
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                cursor: pointer;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                opacity: 0;
+                transform: translateY(20px);
+                animation: fadeInUp 1s ease forwards;
+                z-index: 9999;
+            }
 
-          #installBtn:hover {
-              background-color: #5D4037;
-              transform: scale(1.05);
-              transition: background-color 0.3s, transform 0.3s;
-          }
+            #installBtn:hover {
+                background-color: #5D4037;
+                transform: scale(1.05);
+                transition: background-color 0.3s, transform 0.3s;
+            }
 
-          @keyframes fadeInUp {
-              from {
-                  opacity: 0;
-                  transform: translateY(20px);
-              }
-              to {
-                  opacity: 1;
-                  transform: translateY(0);
-              }
-          }
-      `;
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
             document.head.appendChild(style);
 
             // Action au clic
@@ -134,7 +135,7 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         // 🔌 GESTION CONNEXION PERDUE
         function showOfflinePopup() {
             const existingPopup = document.getElementById('offline-popup');
@@ -239,7 +240,7 @@
         }
 
         setInterval(checkSessionExpired, 60000); // Vérifie expiration session toutes les 60s
-    </script>
+    </script> --}}
     <!-- Js Dependencies -->
     <script src="{{ asset('assets/js/plugins/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
