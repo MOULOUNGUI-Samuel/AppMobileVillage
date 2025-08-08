@@ -1281,7 +1281,7 @@ textarea:focus {
     right: 0;
     left: 0;
     background-color: var(--p1);
-    height: 90px;
+    height: 80px;
     border-radius: 40px 40px 0px 0px;
 }
 
@@ -1292,7 +1292,7 @@ textarea:focus {
     font-size: 26px;
     background-color: var(--g50);
     border-radius: 8px;
-    padding: 8px;
+    padding: 6px;
     color: var(--p1);
 }
 .footer-menu-area .footer-menu .link-item.active {
