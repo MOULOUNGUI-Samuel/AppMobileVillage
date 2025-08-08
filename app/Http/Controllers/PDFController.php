@@ -28,7 +28,7 @@ class PDFController extends Controller
         for ($j = 1; $j <= 2; $j++) {
             $pdf->AddPage();
             // LOGO
-            $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+           $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
             $pdf->SetFont('Arial', 'B', 12);
             $pdf->Cell(190, 10, mb_convert_encoding('FACTURE', 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
             $pdf->SetFont('Arial', '', 10);
@@ -197,7 +197,7 @@ class PDFController extends Controller
             $pdf->AddPage();
 
             // LOGO & TITRE
-            $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+            $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
             $pdf->SetFont('Arial', 'B', 12);
             $pdf->Cell(280, 10, mb_convert_encoding('RELEVER DU CLIENT', 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
             $pdf->SetFont('Arial', '', 10);
@@ -302,7 +302,7 @@ class PDFController extends Controller
         $pdf->AddPage();
 
         // LOGO
-        $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+       $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(190, 10, mb_convert_encoding('FACTURE', 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
         $pdf->SetFont('Arial', '', 10);
@@ -375,7 +375,7 @@ class PDFController extends Controller
         $pdf->AddPage();
 
         // LOGO
-        $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+       $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(190, 10, mb_convert_encoding('FACTURE', 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
         $pdf->SetFont('Arial', '', 10);
@@ -466,7 +466,7 @@ class PDFController extends Controller
         $pdf->AddPage();
 
         // Logo
-        $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+       $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
 
         // Titre et Date
         $pdf->SetFont('Arial', 'B', 12);
@@ -538,7 +538,7 @@ class PDFController extends Controller
         $pdf->AddPage();
 
         // LOGO
-        $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+       $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(190, 10, mb_convert_encoding('MOUVEMENT DE CAISSE', 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
         $pdf->SetFont('Arial', '', 10);
@@ -607,7 +607,7 @@ class PDFController extends Controller
         $pdf->AddPage();
 
         // LOGO
-        $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+       $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(190, 10, mb_convert_encoding('MOUVEMENT DE CAISSE', 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
         $pdf->SetFont('Arial', '', 10);
@@ -687,7 +687,7 @@ class PDFController extends Controller
         $pdf->AddPage();
 
         // LOGO
-        $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+       $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(190, 10, mb_convert_encoding('MOUVEMENT DE CAISSE', 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
         $pdf->SetFont('Arial', '', 10);
@@ -752,7 +752,7 @@ class PDFController extends Controller
         // Ajouter une seconde page identique
         $pdf->AddPage();
         // LOGO
-        $pdf->Image(public_path('src/image/logo.png'), 10, 12, 40);
+       $pdf->Image(public_path('assets/img/logo1.png'), 10, 6, 30);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(190, 10, mb_convert_encoding('MOUVEMENT DE CAISSE', 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
         $pdf->SetFont('Arial', '', 10);

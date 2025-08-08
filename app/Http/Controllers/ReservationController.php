@@ -44,27 +44,75 @@ class ReservationController extends Controller
         }
     }
 
-    function liste_reservation()
+    public function detailsReservation($id)
+    {
+        $entreprise_id = Auth::user()->entreprise_id;
+    
+        $reservation = Reservation::with(['client', 'user', 'salle'])
+        ->whereHas('client', function ($query) use ($entreprise_id) {
+            $query->where('entreprise_id', $entreprise_id);
+        })
+            ->where('id', $id)
+            ->firstOrFail();
+    
+        $caution = Caution::where('reservation_id', $reservation->id)->first();
+        $approbation = ApprobaEvenement::where('reservation_id', $reservation->id)->first();
+    
+        $mouvements = MouvementCaisse::with(['reservation.user'])
+            ->where('reservation_id', $reservation->id)
+            ->get();
+    
+        // Services liés
+        $reservationServices = ReservationService::with('service')
+            ->where('reservation_id', $reservation->id)
+            ->get()
+            ->map(function ($resService) {
+                return [
+                    'service_id'     => optional($resService->service)->id,
+                    'service_nom'    => optional($resService->service)->nom,
+                    'quantite'       => $resService->quantite,
+                    'prix_unitaire'  => $resService->prix_unitaire,
+                    'total'          => $resService->quantite * $resService->prix_unitaire,
+                ];
+            });
+    
+        $total_services = $reservationServices->sum('total');
+    
+        // IMPORTANT : renvoyer un PARTIAL sans @extends
+        return view('components.reservations.detailsReservation', [
+            'reservation'        => $reservation,
+            'caution'            => $caution,
+            'approbation'        => $approbation,
+            'mouvements'         => $mouvements,
+            'reservationServices'=> $reservationServices,
+            'total_services'     => $total_services,
+        ]);
+    }
+    
+    function listeReservation()
     {
         $entreprise_id = Auth::user()->entreprise_id;
         $reservations = Reservation::with(['client', 'user', 'salle'])
             ->whereHas('client', function ($query) use ($entreprise_id) {
                 $query->where('entreprise_id', $entreprise_id);
             })
-            ->orderBy('start_date', 'desc') // Tri décroissant
+            ->orderBy('start_date', 'desc')
             ->get();
-        // dd($reservations);
+    
         $informations_reserves = [];
+    
         foreach ($reservations as $reservation) {
-
             $caution = Caution::where('reservation_id', $reservation->id)->first();
             $approbation = ApprobaEvenement::where('reservation_id', $reservation->id)->first();
-            $mouvements = MouvementCaisse::with(['reservation.user'])->where('reservation_id', $reservation->id)->get();
+            $mouvements = MouvementCaisse::with(['reservation.user'])
+                ->where('reservation_id', $reservation->id)
+                ->get();
+    
             $total_services = ReservationService::where('reservation_id', $reservation->id)
                 ->sum('prix_unitaire');
-            // Récupérer les services liés à cette réservation
+    
             $reservationServices = ReservationService::with('service')
-                ->where('reservation_id', $reservation->id) // Filtre sur la réservation
+                ->where('reservation_id', $reservation->id)
                 ->get()
                 ->map(function ($resService) {
                     return [
@@ -75,39 +123,29 @@ class ReservationController extends Controller
                         'total' => $resService->quantite * $resService->prix_unitaire
                     ];
                 });
-            // $montant_restants = ($reservation_approbations->reservation->montant_quitance - $reservation_approbations->reservation->montant_payer) + ($caution->montant_caution - $caution->montant_rembourse);
-            $informations_reserves[] = [
-                'reservation' => [
-                    'id' => $reservation->id,
-                    'ref_quitance' => $reservation->ref_quitance,
-                    'client_id' => $reservation->client->id,
-                    'client_nom' => $reservation->client->nom . ' ' . $reservation->client->prenom,
-                    'salle' => $reservation->salle->nom ?? 'Salle inconnue',
-                    'montant_salle' => $reservation->salle->montant_base,
-                    'solde_salle' => $reservation->salle->montant_base ?? 'Salle inconnue',
-                    'start_date' => $reservation->start_date,
-                    'total_services' => $total_services,
-                    'end_date' => $reservation->end_date,
-                    'montant_total' => $reservation->montant_total,
-                    // 'montant_restant' => $montant_restant,
-                    'montant_quitance' => $reservation->montant_quitance,
-                    'montant_payer' => $reservation->montant_payer,
-                    'montant_reduction' => $reservation->montant_reduction,
-                    'montant_quotion' => $caution->montant_caution,
-                    'statut' => $reservation->statut,
-                    'statut_valider' => $reservation->statut_valider,
-                    'description_rejet' => $reservation->description_rejet,
-                    'statut_approbation' => $approbation->statut ?? 'valide',
-                    'description' => $reservation->description,
-                    'services' => $reservationServices, // Ajout des services liés
-                    'total_services' => $total_services, // Ajout des services liés
-                    'mouvements' => $mouvements // Ajout des mouvements liés
-                ]
+    
+            $dateKey = \Carbon\Carbon::parse($reservation->start_date)->format('Y-m-d');
+    
+            $informations_reserves[$dateKey][] = [
+                'id' => $reservation->id,
+                'client_nom' => $reservation->client->nom . ' ' . $reservation->client->prenom,
+                'salle_nom' => $reservation->salle->nom ?? 'Salle inconnue',
+                'start_date_formatted' => \App\Helpers\DateHelper::convertirDateEnTexte(\App\Helpers\DateHelper::convertirDateFormat($reservation->start_date)),
+                'montant_total' => number_format($reservation->montant_total, 0, ',', ' '),
+                'montant_payer' => number_format($reservation->montant_payer, 0, ',', ' ') ,
+                'montant_restant' => number_format(max($reservation->montant_total - $reservation->montant_payer, 0), 0, ',', ' ') ,
+                'caution' => $caution?->montant_caution ?? 0,
+                'total_services' => $total_services,
+                'montant_reduction' => $reservation->montant_reduction,
+                'services' => $reservationServices,
+                'statut' => $reservation->statut,
+                'details_url' => route('detailsReservation', $reservation->id),
             ];
         }
-        // dd($informations_reserves);
-        return view('components.liste_reservations', compact('informations_reserves'));
+    
+        return view('components.reservations.calendar', compact('informations_reserves'));
     }
+    
     public function formulaire_modif_reservation($id)
     {
         $entreprise_id = Auth::user()->entreprise_id;

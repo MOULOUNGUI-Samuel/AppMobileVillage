@@ -1,516 +1,516 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{{ config('app.name', 'GESTVILLAGE') }}</title>
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ config('app.name', 'GESTVILLAGE') }}</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
 
-        <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo1.png') }}') }}" type="image/x-icon" />
 
-        <!-- Polices & Icônes (CDN) -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+    <!-- Polices & Icônes (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
 
-        <!-- Stylesheets CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-        <!-- Importation de Font Awesome pour les icônes -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Stylesheets CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+    <!-- Importation de Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        <!-- Manifest PWA -->
-        {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
-            <meta name="theme-color" content="#4a2f26">
-        <link rel="manifest" href="manifest.json" />
-        
-        <style>
-            .footer-menu a {
-                text-decoration: none;
-                color: inherit;
+    <!-- Manifest PWA -->
+    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
+    <meta name="theme-color" content="#4a2f26">
+    <link rel="manifest" href="manifest.json" />
+
+    <style>
+        .footer-menu a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .footer-menu .link-item {
+            font-size: 26px;
+            color: #868e96;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .footer-menu .link-item.active {
+            color: #343a40;
+        }
+
+
+        /* Cible directement les liens <a> dans le menu */
+        .footer-menu a {
+            text-decoration: none;
+            /* Supprime le soulignement du lien */
+            color: inherit;
+            /* Fait en sorte que le lien n'ait pas sa propre couleur (bleue) */
+            /* mais hérite de son parent, ce qui nous donne le contrôle */
+        }
+
+        /* Style de base pour toutes les icônes dans les liens du menu */
+        .footer-menu .link-item {
+            font-size: 26px;
+            /* Ajustez la taille si nécessaire */
+            color: #868e96;
+            /* Une couleur neutre pour les icônes inactives */
+            transition: color 0.2s ease-in-out;
+            /* Effet de transition doux */
+        }
+
+        /* Style spécifique pour l'icône quand son lien est actif */
+        .footer-menu .link-item.active {
+            color: #343a40;
+            /* Une couleur plus foncée ou la couleur principale de votre thème */
+        }
+
+        /* Style pour l'aperçu du message */
+        .message-preview {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* --- STYLE AJOUTÉ POUR LA BORDURE VERTE --- */
+        .message-item.top-doctor-item {
+            /* Crée la bordure verte fine */
+            border: 1.2px solid #1b3133;
+            /* Une couleur turquoise qui correspond à l'interface */
+
+            /* Arrondit les coins de la bordure */
+            border-radius: 20px;
+
+            /* Optionnel : supprime l'ombre par défaut s'il y en a une pour un look plus épuré */
+            /* box-shadow: none; */
+        }
+
+        /* --- FIN DU STYLE AJOUTÉ --- */
+
+        .message-item .doctor-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        /* --- STYLES AJOUTÉS POUR LE BOUTON --- */
+        .message-button {
+            /* 1. Définir la couleur de fond */
+            background-color: rgb(59, 100, 62);
+
+            /* 2. Créer un carré */
+            width: 44px;
+            height: 44px;
+
+            /* 3. Arrondir les bords */
+            border-radius: 12px;
+
+            /* 4. Centrer l'icône à l'intérieur */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-button i {
+            /* 5. Mettre l'icône en blanc */
+            color: white;
+        }
+
+        /* --- FIN DES STYLES AJOUTÉS --- */
+        p.name {
+            /* permet d'éviter la couleur bleue par défaut à un élément contenu dans un lien */
+            color: black;
+        }
+
+        /* S'assure qu'il reste noir même lorsque le lien parent est survolé */
+        a:hover p.name {
+            color: black;
+        }
+
+
+        /* --- VARIABLES DE COULEUR --- */
+        :root {
+            --primary-color: #5e2e1e;
+            /* Marron du toit */
+            --primary-hover: #4b2317;
+            /* Variante plus sombre */
+            --accent-color: #1b3133;
+            /* Vert olive (murs) */
+            --danger-color: #a04127;
+            /* Rouge terre cuite */
+            --background-color: #f6f2e6;
+            /* Beige des murs */
+            --card-bg-color: #ffffff;
+            /* Cartes, fond clair */
+            --text-dark: #4a2f26;
+            --text-primary: #4b2317;
+            /* Texte "LE VILLAGE" */
+            --text-light: #a39387;
+            /* Variante douce du brun */
+            --border-color: #e2dccc;
+            /* Bordures légères */
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+
+        /* --- STYLES GÉNÉRAUX --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #e2dccc;
+            margin: 0;
+            padding: 2rem;
+            /* Cet espacement peut être ajusté ou déplacé sur le container principal */
+            color: var(--text-dark);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* --- EN-TÊTE PRINCIPAL --- */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px var(--shadow-color);
+            margin-bottom: 2rem;
+        }
+
+        .main-header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .header-actions button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-left: 1rem;
+        }
+
+        .header-actions button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .header-actions button i {
+            margin-right: 0.5rem;
+        }
+
+        /* --- SYSTÈME D'ONGLETS COULISSANTS --- */
+        .tab-container {
+            width: 100%;
+            background-color: var(--card-bg-color);
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px var(--shadow-color);
+            margin-bottom: 2rem;
+        }
+
+        .tab-buttons {
+            position: relative;
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem 0;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+            z-index: 2;
+        }
+
+        .tab-button.active {
+            color: white;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 0.5rem;
+            z-index: 1;
+            transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+        }
+
+        .tab-content-container {
+            padding-top: 1rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
             }
 
-            .footer-menu .link-item {
-                font-size: 26px;
-                color: #868e96;
-                transition: color 0.2s ease-in-out;
-            }
-
-            .footer-menu .link-item.active {
-                color: #343a40;
-            }
-
-
-            /* Cible directement les liens <a> dans le menu */
-            .footer-menu a {
-                text-decoration: none;
-                /* Supprime le soulignement du lien */
-                color: inherit;
-                /* Fait en sorte que le lien n'ait pas sa propre couleur (bleue) */
-                /* mais hérite de son parent, ce qui nous donne le contrôle */
-            }
-
-            /* Style de base pour toutes les icônes dans les liens du menu */
-            .footer-menu .link-item {
-                font-size: 26px;
-                /* Ajustez la taille si nécessaire */
-                color: #868e96;
-                /* Une couleur neutre pour les icônes inactives */
-                transition: color 0.2s ease-in-out;
-                /* Effet de transition doux */
-            }
-
-            /* Style spécifique pour l'icône quand son lien est actif */
-            .footer-menu .link-item.active {
-                color: #343a40;
-                /* Une couleur plus foncée ou la couleur principale de votre thème */
-            }
-
-            /* Style pour l'aperçu du message */
-            .message-preview {
-                color: #888;
-                font-size: 0.9em;
-            }
-
-            /* --- STYLE AJOUTÉ POUR LA BORDURE VERTE --- */
-            .message-item.top-doctor-item {
-                /* Crée la bordure verte fine */
-                border: 1.2px solid #1b3133;
-                /* Une couleur turquoise qui correspond à l'interface */
-
-                /* Arrondit les coins de la bordure */
-                border-radius: 20px;
-
-                /* Optionnel : supprime l'ombre par défaut s'il y en a une pour un look plus épuré */
-                /* box-shadow: none; */
-            }
-
-            /* --- FIN DU STYLE AJOUTÉ --- */
-
-            .message-item .doctor-img {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                overflow: hidden;
-            }
-
-            /* --- STYLES AJOUTÉS POUR LE BOUTON --- */
-            .message-button {
-                /* 1. Définir la couleur de fond */
-                background-color: rgb(59, 100, 62);
-
-                /* 2. Créer un carré */
-                width: 44px;
-                height: 44px;
-
-                /* 3. Arrondir les bords */
-                border-radius: 12px;
-
-                /* 4. Centrer l'icône à l'intérieur */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .message-button i {
-                /* 5. Mettre l'icône en blanc */
-                color: white;
-            }
-
-            /* --- FIN DES STYLES AJOUTÉS --- */
-            p.name {
-                /* permet d'éviter la couleur bleue par défaut à un élément contenu dans un lien */
-                color: black;
-            }
-
-            /* S'assure qu'il reste noir même lorsque le lien parent est survolé */
-            a:hover p.name {
-                color: black;
-            }
-
-
-            /* --- VARIABLES DE COULEUR --- */
-            :root {
-                --primary-color: #5e2e1e;
-                /* Marron du toit */
-                --primary-hover: #4b2317;
-                /* Variante plus sombre */
-                --accent-color: #1b3133;
-                /* Vert olive (murs) */
-                --danger-color: #a04127;
-                /* Rouge terre cuite */
-                --background-color: #f6f2e6;
-                /* Beige des murs */
-                --card-bg-color: #ffffff;
-                /* Cartes, fond clair */
-                --text-dark: #4a2f26;
-                --text-primary: #4b2317;
-                /* Texte "LE VILLAGE" */
-                --text-light: #a39387;
-                /* Variante douce du brun */
-                --border-color: #e2dccc;
-                /* Bordures légères */
-                --shadow-color: rgba(0, 0, 0, 0.05);
-            }
-
-
-            /* --- STYLES GÉNÉRAUX --- */
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                background-color: #e2dccc;
-                margin: 0;
-                padding: 2rem;
-                /* Cet espacement peut être ajusté ou déplacé sur le container principal */
-                color: var(--text-dark);
-            }
-
-            * {
-                box-sizing: border-box;
-            }
-
-            /* --- EN-TÊTE PRINCIPAL --- */
-            .main-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 1rem 2rem;
-                background-color: var(--card-bg-color);
-                border: 1px solid var(--border-color);
-                border-radius: 0.5rem;
-                box-shadow: 0 4px 6px -1px var(--shadow-color);
-                margin-bottom: 2rem;
-            }
-
-            .main-header h1 {
-                font-size: 1.5rem;
-                margin: 0;
-            }
-
-            .header-actions button {
-                background-color: var(--primary-color);
-                color: white;
-                border: none;
-                padding: 0.75rem 1.25rem;
-                border-radius: 0.375rem;
-                font-size: 0.9rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: background-color 0.2s ease-in-out;
-                margin-left: 1rem;
-            }
-
-            .header-actions button:hover {
-                background-color: var(--primary-hover);
-            }
-
-            .header-actions button i {
-                margin-right: 0.5rem;
-            }
-
-            /* --- SYSTÈME D'ONGLETS COULISSANTS --- */
-            .tab-container {
-                width: 100%;
-                background-color: var(--card-bg-color);
-                padding: 0.5rem;
-                border-radius: 0.75rem;
-                box-shadow: 0 4px 6px -1px var(--shadow-color);
-                margin-bottom: 2rem;
-            }
-
-            .tab-buttons {
-                position: relative;
-                display: flex;
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                width: 100%;
-            }
-
-            .tab-button {
-                flex: 1;
-                padding: 1rem 0;
-                text-align: center;
-                font-weight: 600;
-                cursor: pointer;
-                color: var(--text-light);
-                transition: color 0.3s ease;
-                z-index: 2;
-            }
-
-            .tab-button.active {
-                color: white;
-            }
-
-            .slider {
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 100%;
-                background-color: var(--primary-color);
-                border-radius: 0.5rem;
-                z-index: 1;
-                transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
-            }
-
-            .tab-content-container {
-                padding-top: 1rem;
-            }
-
-            .tab-content {
-                display: none;
-                animation: fadeIn 0.5s;
-            }
-
-            .tab-content.active {
-                display: block;
-            }
-
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                }
-
-                to {
-                    opacity: 1;
-                }
-            }
-
-            /* --- CONTENU DES CARTES --- */
-            .cards-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-                gap: 2rem;
-            }
-
-            .cash-register-card {
-                background-color: var(--card-bg-color);
-                border-radius: 0.5rem;
-                box-shadow: 0 4px 6px -1px var(--shadow-color);
-                border: 1px solid var(--border-color);
-                display: flex;
-                flex-direction: column;
-                padding: 1.5rem;
-            }
-
-            .card-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1.5rem;
-            }
-
-            .card-header .settings-icon {
-                font-size: 1.5rem;
-                color: var(--text-light);
-                cursor: pointer;
-            }
-
-            .card-header .actions-btn {
-                background-color: #f7fafc;
-                border: 1px solid var(--border-color);
-                padding: 0.5rem 1rem;
-                border-radius: 0.375rem;
-                cursor: pointer;
-            }
-
-            .card-body h2 {
-                margin: 0 0 0.5rem 0;
-                font-size: 1rem;
-                color: var(--text-light);
-                text-transform: uppercase;
-            }
-
-            .card-body .amount {
-                font-size: 2.5rem;
-                font-weight: 700;
-                margin: 0 0 0.5rem 0;
-            }
-
-            .card-body .manager {
-                color: var(--text-light);
-                font-size: 0.9rem;
-                margin: 0;
-            }
-
-            .card-footer {
-                margin-top: auto;
-                padding-top: 1.5rem;
-            }
-
-            .card-footer .view-movements-btn {
-                width: 100%;
-                background-color: var(--primary-color);
-                color: white;
-                border: none;
-                padding: 0.75rem;
-                border-radius: 0.375rem;
-                font-size: 1rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: background-color 0.2s ease-in-out;
-            }
-
-            .card-footer .view-movements-btn:hover {
-                background-color: var(--primary-hover);
-            }
-
-            .card-footer .view-movements-btn i {
-                margin-right: 0.5rem;
-            }
-
-            /* --- Contenu Rapport Financier (placeholder) --- */
-            .report-placeholder {
-                padding: 2rem;
-                text-align: center;
-                background-color: var(--card-bg-color);
-                border-radius: 0.5rem;
-            }
-
-            .report-placeholder i {
-                font-size: 4rem;
-                color: var(--primary-color);
-                margin-bottom: 1rem;
-            }
-
-            /* --- STYLES DE LA FENÊTRE MODALE --- */
-            .modal {
-                display: none;
-                position: fixed;
-                z-index: 1000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-
-            .modal-content {
-                background-color: #fefefe;
-                margin: 10% auto;
-                border-radius: 0.5rem;
-                width: 90%;
-                max-width: 500px;
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-                animation: fadeIn 0.3s;
-            }
-
-            .modal-header {
-                padding: 1rem 1.5rem;
-                background-color: var(--primary-color);
-                color: white;
-                border-top-left-radius: 0.5rem;
-                border-top-right-radius: 0.5rem;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .modal-header h2 {
-                margin: 0;
-                font-size: 1.25rem;
-            }
-
-            .close-btn {
-                color: white;
-                font-size: 1.75rem;
-                font-weight: bold;
-                cursor: pointer;
-                opacity: 0.8;
-                transition: opacity 0.2s;
-            }
-
-            .close-btn:hover {
+            to {
                 opacity: 1;
             }
+        }
 
-            .modal-body {
-                padding: 2rem;
-            }
+        /* --- CONTENU DES CARTES --- */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
 
-            .form-group {
-                margin-bottom: 1.5rem;
-            }
+        .cash-register-card {
+            background-color: var(--card-bg-color);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
 
-            .form-group label {
-                display: block;
-                margin-bottom: 0.5rem;
-                font-weight: 600;
-                color: var(--text-dark);
-            }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
 
-            .form-group input,
-            .form-group select {
-                width: 100%;
-                padding: 0.75rem;
-                border: 1px solid var(--border-color);
-                border-radius: 0.375rem;
-                font-size: 1rem;
-            }
+        .card-header .settings-icon {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
 
-            .form-group select {
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-                background-position: right 0.5rem center;
-                background-repeat: no-repeat;
-                background-size: 1.5em 1.5em;
-            }
+        .card-header .actions-btn {
+            background-color: #f7fafc;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
+
+        .card-body h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .card-body .amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .card-body .manager {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            padding-top: 1.5rem;
+        }
+
+        .card-footer .view-movements-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .card-footer .view-movements-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .card-footer .view-movements-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* --- Contenu Rapport Financier (placeholder) --- */
+        .report-placeholder {
+            padding: 2rem;
+            text-align: center;
+            background-color: var(--card-bg-color);
+            border-radius: 0.5rem;
+        }
+
+        .report-placeholder i {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* --- STYLES DE LA FENÊTRE MODALE --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-header {
+            padding: 1rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .close-btn {
+            color: white;
+            font-size: 1.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+
+        .form-group select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
 
 
-            /* Dans la balise <style> de votre layout app.blade.php */
+        /* Dans la balise <style> de votre layout app.blade.php */
 
-            /* =================================================================== */
-            /* AJUSTEMENTS RESPONSIVES POUR UTILISER L'ESPACE SUR MOBILE           */
-            /* =================================================================== */
+        /* =================================================================== */
+        /* AJUSTEMENTS RESPONSIVES POUR UTILISER L'ESPACE SUR MOBILE           */
+        /* =================================================================== */
 
-            /* On applique ces styles uniquement sur les écrans de petite taille (ex: téléphones) */
-            @media (max-width: 576px) {
+        /* On applique ces styles uniquement sur les écrans de petite taille (ex: téléphones) */
+        @media (max-width: 576px) {
 
-                /*
+            /*
                 * ÉTAPE 1 : On force les conteneurs principaux à réduire leurs marges latérales.
                 * Les classes 'px-6' créent un grand espace vide sur les côtés.
                 * On le remplace par un espacement plus petit (1rem) pour mobile.
                 */
-                .notification-top-area.px-6,
-                .px-6.py-8.pb-45 {
-                    padding-left: 0rem !important;
-                    /* On surcharge la valeur de 'px-6' */
-                    padding-right: 0rem !important;
-                    /* On surcharge la valeur de 'px-6' */
-                }
+            .notification-top-area.px-6,
+            .px-6.py-8.pb-45 {
+                padding-left: 0rem !important;
+                /* On surcharge la valeur de 'px-6' */
+                padding-right: 0rem !important;
+                /* On surcharge la valeur de 'px-6' */
+            }
 
-                /*
+            /*
                 * ÉTAPE 2 : On réduit le grand padding à l'intérieur de chaque carte utilisateur.
                 * La classe 'p-5' est trop grande pour un mobile et "mange" l'espace intérieur.
                 * On le remplace par un padding plus adapté.
                 */
-                .w-100.top-doctor-item.p-5 {
-                    padding: 1.25rem 1rem !important;
-                    /* On surcharge 'p-5' par un padding vertical et horizontal plus petit */
-                }
+            .w-100.top-doctor-item.p-5 {
+                padding: 1.25rem 1rem !important;
+                /* On surcharge 'p-5' par un padding vertical et horizontal plus petit */
+            }
 
-                /*
+            /*
                 * ÉTAPE 3 (Optionnel) : On peut aussi réduire l'écart entre les éléments
                 * pour un rendu plus compact sur mobile.
                 */
-                /* .d-flex.gap-4 {
+            /* .d-flex.gap-4 {
                     gap: 1rem !important; /* On réduit l'espace de la classe 'gap-4' */
-                /* } */
-            }
+            /* } */
+        }
 
-            .colo-primary {
-                color: #4b2317;
-            }
-        </style>
+        .colo-primary {
+            color: #4b2317;
+        }
+    </style>
 
-    </head>
+</head>
 
 <body style="background-color: #e2dccccd">
     <!-- Preloader Start -->
@@ -557,8 +557,8 @@
                 <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
                     {{-- Bouton Notification --}}
                     <button
-                        class="btn btn-outline-light position-relative d-flex align-items-center justify-content-center p-2" id="notificationModalOpenButton"
-                        style="border: 1px solid #8B5E3C; border-radius: 10px;">
+                        class="btn btn-outline-light position-relative d-flex align-items-center justify-content-center p-2"
+                        id="notificationModalOpenButton" style="border: 1px solid #8B5E3C; border-radius: 10px;">
                         <i class="ph ph-bell fs-5 text-dark"></i>
                         <span
                             class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
@@ -566,16 +566,40 @@
                     </button>
 
                     {{-- Bouton Déconnexion --}}
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit"
-                            class="btn btn-outline-light d-flex align-items-center justify-content-center p-2"
-                            style="border: 1px solid #8B5E3C; border-radius: 10px;">
-                            <i class="fas fa-sign-out-alt colo-primary fs-5"></i>
-                        </button>
-                    </form>
+                    <button
+                        class="btn btn-outline-light d-flex align-items-center justify-content-center p-2 logoutModalButton"
+                        style="border: 1px solid #8B5E3C; border-radius: 10px;">
+                        <i class="fas fa-sign-out-alt colo-primary fs-5"></i>
+                    </button>
+                    {{-- <button class="appointment-link fill d-block w-100 logoutModalButton">
+                        Cancel
+                    </button> --}}
                 </div>
             </section>
+            <div class="">
+                <div class="logout-modal-bg" id="logoutModalBg"></div>
+                <div class="px-6 pt-17 logout-modal-area pb-8 logoutModalClose" id="logoutModal">
+                    <div
+                        class="sort-options w-100 text-center px-10 d-flex flex-column justify-content-center align-items-center">
+                        <h2 class="heading-2 y300-color">Confirmer la deconexion</h2>
+                        <div class="custom-border-area position-relative my-5 w-100">
+                            <div class="line-horizontal"></div>
+                        </div>
+                        <p>Voulez-vous vous déconnecter ?</p>
+                        <div class="w-100 pt-8 d-flex justify-content-between align-items-center gap-4">
+                            <div class="gender-button" id="cancelButton">
+                                <button>Non</button>
+                            </div>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="gender-button active" id="logoutButton">
+                                    <span class="d-block">Oui</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Header Section End -->
         </div>
         <!-- =================================== -->
@@ -591,13 +615,13 @@
                         <!-- Dashboard -->
                         <a href="{{ route('dashboard') }}" class="flex-fill text-center">
                             <i
-                                class="ph ph-house-line link-item {{ request()->routeIs('dashboard') ? 'active' : '' }}"></i>
+                                class="ph ph-house-line link-item {{ request()->routeIs('dashboard','detailsReservation') ? 'active' : '' }}"></i>
                         </a>
 
                         <!-- Calendrier -->
-                        <a href="{{ route('calendar') }}" class="flex-fill text-center">
+                        <a href="{{ route('listeReservation') }}" class="flex-fill text-center">
                             <i
-                                class="ph-fill ph-calendar link-item {{ request()->routeIs('calendar') ? 'active' : '' }}"></i>
+                                class="ph-fill ph-calendar link-item {{ request()->routeIs('listeReservation') ? 'active' : '' }}"></i>
                         </a>
 
                         <!-- Finances -->
@@ -648,8 +672,10 @@
     {{-- Si la route actuelle N'EST PAS 'calendrier', alors on affiche le contenu --}}
     <!-- @if (!Route::is('calendar'))
 -->
-<div class="position-fixed top-0 start-0 bottom-0 end-0 notificationModal overflow-auto fullPageModalClose" style="z-index: 9999;">
-    <div class="px-6 pt-8 notification-top-area">
+    
+    <div class="position-fixed top-0 start-0 bottom-0 end-0 notificationModal overflow-auto fullPageModalClose"
+        style="z-index: 9999;">
+        <div class="px-6 pt-8 notification-top-area">
             <div class="d-flex justify-content-start align-items-center gap-4 py-3">
                 <button class="back-button flex-center" id="notificationModalCloseButton">
                     <i class="ph ph-caret-left"></i>
@@ -750,8 +776,8 @@
     <!-- Notification Modal End -->
 
     <!-- Doctor Speciality Modal Start (Finance) -->
-    <div
-        class="px-6 pb-8 position-fixed top-0 start-0 bottom-0 end-0 specialityModal fullPageModalClose overflow-auto" style="z-index: 9999;">
+    <div class="px-6 pb-8 position-fixed top-0 start-0 bottom-0 end-0 specialityModal fullPageModalClose overflow-auto"
+        style="z-index: 9999;">
         <div class="px-6 pt-8 notification-top-area">
             <div class="d-flex justify-content-start align-items-center gap-4 py-3">
                 <button class="back-button flex-center" id="specialityModalCloseButton">
@@ -792,22 +818,8 @@
             <!-- speciality section end -->
         </div>
         <!-- Doctor Speciality Modal End -->
-
-        <!-- Logout Modal Start -->
-        <div id="logoutModal"
-            class="logoutModalClose position-fixed bottom-0 start-0 w-100 bg-white p-4 shadow-lg rounded-top z-50"
-            style="min-height: 180px;">
-            <p class="text-center fw-semibold fs-5 mb-3">Voulez-vous vous déconnecter ?</p>
-
-            <div class="d-flex justify-content-around">
-                <button class="btn btn-outline-secondary px-4" onclick="closeLogoutModal()">Annuler</button>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-danger px-4">Se déconnecter</button>
-                </form>
-            </div>
-        </div>
+        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+        <script src="{{ asset('assets/js/script.js') }}"></script>
         <script>
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js');
@@ -1128,112 +1140,112 @@
             });
         </script>
 
-<script>
-    // 🔌 GESTION CONNEXION PERDUE
-    function showOfflinePopup() {
-        const existingPopup = document.getElementById('offline-popup');
-        if (existingPopup) return;
+        <script>
+            // 🔌 GESTION CONNEXION PERDUE
+            function showOfflinePopup() {
+                const existingPopup = document.getElementById('offline-popup');
+                if (existingPopup) return;
 
-        const popup = document.createElement('div');
-        popup.id = 'offline-popup';
-        popup.innerHTML = `
+                const popup = document.createElement('div');
+                popup.id = 'offline-popup';
+                popup.innerHTML = `
             <div class="alert alert-danger text-center position-fixed bottom-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
                 📡 Connexion perdue.
             </div>
         `;
-        document.body.appendChild(popup);
-    }
+                document.body.appendChild(popup);
+            }
 
-    function showOnlinePopup() {
-        const popup = document.createElement('div');
-        popup.id = 'online-popup';
-        popup.innerHTML = `
+            function showOnlinePopup() {
+                const popup = document.createElement('div');
+                popup.id = 'online-popup';
+                popup.innerHTML = `
             <div class="alert alert-success text-center position-fixed bottom-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
                 ✅ Connexion rétablie.
             </div>
         `;
-        document.body.appendChild(popup);
-        setTimeout(() => popup.remove(), 4000);
-    }
+                document.body.appendChild(popup);
+                setTimeout(() => popup.remove(), 4000);
+            }
 
-    function removeOfflinePopup() {
-        const popup = document.getElementById('offline-popup');
-        if (popup) popup.remove();
-        showOnlinePopup();
-    }
+            function removeOfflinePopup() {
+                const popup = document.getElementById('offline-popup');
+                if (popup) popup.remove();
+                showOnlinePopup();
+            }
 
-    window.addEventListener('offline', showOfflinePopup);
-    window.addEventListener('online', removeOfflinePopup);
+            window.addEventListener('offline', showOfflinePopup);
+            window.addEventListener('online', removeOfflinePopup);
 
-    if (!navigator.onLine) {
-        showOfflinePopup();
-    }
+            if (!navigator.onLine) {
+                showOfflinePopup();
+            }
 
-    // 📶 GESTION QUALITÉ RÉSEAU INTERNET
-    function checkNetworkQuality() {
-        const start = Date.now();
-        fetch(window.location.href, {
-                method: 'HEAD',
-                cache: 'no-store'
-            })
-            .then(() => {
-                const duration = Date.now() - start;
-                let message = '';
-                if (duration < 100) {
-                    message = '🚀 Réseau excellent';
-                } else if (duration < 500) {
-                    message = '📶 Réseau moyen';
-                } else {
-                    message = '🐢 Réseau lent';
-                }
+            // 📶 GESTION QUALITÉ RÉSEAU INTERNET
+            function checkNetworkQuality() {
+                const start = Date.now();
+                fetch(window.location.href, {
+                        method: 'HEAD',
+                        cache: 'no-store'
+                    })
+                    .then(() => {
+                        const duration = Date.now() - start;
+                        let message = '';
+                        if (duration < 100) {
+                            message = '🚀 Réseau excellent';
+                        } else if (duration < 500) {
+                            message = '📶 Réseau moyen';
+                        } else {
+                            message = '🐢 Réseau lent';
+                        }
 
-                const quality = document.createElement('div');
-                quality.className = 'alert alert-info text-center position-fixed bottom-0 start-0 end-0 m-3 shadow';
-                quality.style.zIndex = 9999;
-                quality.innerText = message;
-                document.body.appendChild(quality);
-                setTimeout(() => quality.remove(), 1000);
-            });
-    }
+                        const quality = document.createElement('div');
+                        quality.className = 'alert alert-info text-center position-fixed bottom-0 start-0 end-0 m-3 shadow';
+                        quality.style.zIndex = 9999;
+                        quality.innerText = message;
+                        document.body.appendChild(quality);
+                        setTimeout(() => quality.remove(), 1000);
+                    });
+            }
 
-    setInterval(checkNetworkQuality, 60000); // Test de réseau toutes les 60s
+            setInterval(checkNetworkQuality, 60000); // Test de réseau toutes les 60s
 
-    // ⏱️ GESTION SESSION EXPIRÉE
-    function showSessionExpiredPopup() {
-        const existingPopup = document.getElementById('session-popup');
-        if (existingPopup) return;
+            // ⏱️ GESTION SESSION EXPIRÉE
+            function showSessionExpiredPopup() {
+                const existingPopup = document.getElementById('session-popup');
+                if (existingPopup) return;
 
-        const popup = document.createElement('div');
-        popup.id = 'session-popup';
-        popup.innerHTML = `
+                const popup = document.createElement('div');
+                popup.id = 'session-popup';
+                popup.innerHTML = `
             <div class="alert alert-warning text-center position-fixed bottom-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
                 ⌛ Session expirée. Redirection en cours...
             </div>
         `;
-        document.body.appendChild(popup);
+                document.body.appendChild(popup);
 
-        setTimeout(() => {
-            window.location.href = "/login";
-        }, 3000);
-    }
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 3000);
+            }
 
-    function checkSessionExpired() {
-        fetch(window.location.href, {
-                method: 'HEAD',
-                cache: 'no-store'
-            })
-            .then(response => {
-                if (response.status === 419 || response.status === 401) {
-                    showSessionExpiredPopup();
-                }
-            })
-            .catch(() => {
-                showOfflinePopup();
-            });
-    }
+            function checkSessionExpired() {
+                fetch(window.location.href, {
+                        method: 'HEAD',
+                        cache: 'no-store'
+                    })
+                    .then(response => {
+                        if (response.status === 419 || response.status === 401) {
+                            showSessionExpiredPopup();
+                        }
+                    })
+                    .catch(() => {
+                        showOfflinePopup();
+                    });
+            }
 
-    setInterval(checkSessionExpired, 60000); // Vérifie expiration session toutes les 60s
-</script>
+            setInterval(checkSessionExpired, 60000); // Vérifie expiration session toutes les 60s
+        </script>
 
 </body>
 

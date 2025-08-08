@@ -304,8 +304,8 @@
             border: 1px solid #f0f0f0;
         }
     </style>
-    <section class="px-6 pt-8 notification-top-area">
-        <div class="d-flex justify-content-start align-items-center gap-4 py-3">
+    <section class="px-6 pt-8 notification-top-area mx-3" style="margin-top: -30px">
+        <div class="d-flex justify-content-between align-items-center gap-4 py-3">
             <a href="{{ route('dashboard') }}" class="p1-color back-button flex-center">
                 <i class="ph ph-caret-left"></i>
             </a>
@@ -314,18 +314,18 @@
     </section>
 
     <!-- La balise ouvrante est ici... -->
-    <div class="schedule-section w-100 px-6 pt-8 overflow-hidden">
+    <div class="schedule-section w-100 px-6 pt-8 overflow-hidden mx-1" style="margin-top: -30px">
         <div class="d-flex justify-content-between align-items-center pb-5">
-            <h6 class="">Mes réservations</h6>
+            <h6 class="ml-2">Mes réservations</h6>
             <div class="flex-center gap-3">
                 <button id="prev-month-btn" class="month-navigation-button flex-center">
-                    <i class="ph ph-caret-left"></i>
+                    <i class="ph ph-caret-left" style="font-size: 13px"></i>
                 </button>
                 <div id="calendarModalOpenButton" style="cursor: pointer;">
                     <p id="currentMonthDisplay" class="fw-bold text-center">Juillet 2025</p>
                 </div>
                 <button id="next-month-btn" class="month-navigation-button flex-center">
-                    <i class="ph ph-caret-right"></i>
+                    <i class="ph ph-caret-right" style="font-size: 13px"></i>
                 </button>
             </div>
         </div>
@@ -337,38 +337,12 @@
 
     <!-- Formulaire de recherche par période -->
     </div>
-    <div class="faq-accordion-area">
-        <div class="faq-accordion theme-transition-3 d-flex justify-content-between align-items-center">
-            <h6 class="text-14px">Recherche par période</h6>
-            <div class="">
-                <i class="ph-fill text-[24px] ph-caret-down ti-plus"> </i>
-            </div>
-        </div>
-        <div class="theme-transition-6 h-0 overflow-hidden" style="">
-            <div class="custom-border-area position-relative w-100 my-3">
-                <div class="line-horizontal"></div>
-            </div>
-            <form id="filter-form" class="d-flex flex-wrap align-items-end gap-3">
-                <div class="flex-grow-1">
-                    <label for="startDate" class="form-label small">Date de début</label>
-                    <input type="date" id="startDate" class="form-control" required>
-                </div>
-                <div class="flex-grow-1">
-                    <label for="endDate" class="form-label small">Date de fin</label>
-                    <input type="date" id="endDate" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Rechercher</button>
-                <button type="button" id="reset-view-btn" class="btn btn-outline-secondary">Annuler la recherche</button>
-            </form>
-        </div>
-    </div>
 
     <!-- Conteneur pour la barre des jours, affiché par défaut -->
-    <div id="schedule-day-scroller" class="schedule-area">
+    <div id="schedule-day-scroller" class="schedule-area mx-2">
         <div class="schedule-day d-flex justify-content-start align-items-center gap-3 overflow-auto pb-3">
             <!-- Les jours seront générés par JS ici -->
         </div>
-    </div>
     </div>
 
     <!-- Conteneur pour la liste des événements (commun aux deux vues) -->
@@ -382,41 +356,6 @@
     </div>
 
 
-    <!-- =============== NOUVELLE MODALE POUR LES DÉTAILS DE LA RÉSERVATION ==================== -->
-    <div id="reservationDetailModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Détails de l'événement</h4>
-                <button id="closeReservationDetailModal">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="info-box">
-                    <div class="detail-row"><strong>Client :</strong> <span id="res-client"></span></div>
-                    <div class="detail-row" style="border-bottom: none;"><strong>Salle :</strong> <span
-                            id="res-salle"></span></div>
-                </div>
-
-                <h5>Informations supplémentaires</h5>
-                <div class="detail-row"><span>Date début :</span> <span id="res-date-debut" class="fw-bold"></span></div>
-                <div class="detail-row"><span>Date fin :</span> <span id="res-date-fin" class="fw-bold"></span></div>
-                <div class="detail-row"><span>Montant salle :</span> <span id="res-montant-salle" class="fw-bold"></span>
-                </div>
-                <div class="detail-row"><span>Caution :</span> <span id="res-caution" class="fw-bold"></span></div>
-                <div class="detail-row"><span>Montant total de services :</span> <span id="res-montant-services"
-                        class="fw-bold"></span></div>
-                <div class="detail-row"><span>Montant reduction :</span> <span id="res-reduction" class="fw-bold"></span>
-                </div>
-                <div class="detail-row fs-5" style="border-bottom: none;"><strong>Montant total à payer :</strong> <strong
-                        id="res-total" class="text-primary"></strong></div>
-
-                <hr>
-                <h6><i class="ph ph-list-checks"></i> Liste des Services</h6>
-                <div id="res-services-list" class="text-muted fst-italic">
-                    <!-- Les services seront listés ici, ou "Aucun service inclus" -->
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- =============== Calendar Modal Start ==================== -->
     <!-- J'ai ajouté un style display:none pour la cacher par défaut -->
@@ -468,67 +407,28 @@
 
 
     <!-- ======================= SCRIPT MIS À JOUR ======================= -->
+    <!-- SCRIPT CORRIGÉ -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        const eventsByDate = @json($informations_reserves);
 
-            // --- DONNÉES D'EXEMPLE BASÉES SUR VOTRE IMAGE ---
-            const sampleEvents = {
-                '2025-12-27': [
-                    {
-                        client: 'NZE MENDOME REBECCA',
-                        salle: 'Site',
-                        date_debut: 'samedi 27 décembre 2025',
-                        date_fin: 'samedi 27 décembre 2025',
-                        montant_salle: 4000000,
-                        caution: 400000,
-                        montant_services: 0,
-                        reduction: 0,
-                        total_a_payer: 4400000,
-                        services_inclus: ['Aucun service inclus']
-                    }
-                ],
-                '2025-07-25': [
-                    {
-                        client: 'John Doe',
-                        salle: 'Salle de Conférence',
-                        date_debut: 'vendredi 25 juillet 2025',
-                        date_fin: 'vendredi 25 juillet 2025',
-                        montant_salle: 500000,
-                        caution: 50000,
-                        montant_services: 150000,
-                        reduction: 25000,
-                        total_a_payer: 675000,
-                        services_inclus: ['Projecteur Vidéo', 'Service café']
-                    }
-                ]
-            };
+        document.addEventListener('DOMContentLoaded', function() {
 
             // --- GESTION DU DOM ---
             const eventListContainer = document.getElementById('event-list-container');
-
-            // --- GESTION DE LA NOUVELLE MODALE ---
-            const reservationModal = document.getElementById('reservationDetailModal');
-            const closeReservationModalBtn = document.getElementById('closeReservationDetailModal');
-
-            closeReservationModalBtn.onclick = () => reservationModal.style.display = 'none';
-            window.onclick = (event) => {
-                if (event.target == reservationModal) {
-                    reservationModal.style.display = 'none';
-                }
-            };
-
-            // Le reste du code du calendrier (navigation, etc.) reste le même
-            // ... (collez ici le code du calendrier de la réponse précédente)
             const monthDisplay = document.getElementById('currentMonthDisplay');
             const dayContainer = document.getElementById('schedule-day-container');
             const prevMonthBtn = document.getElementById('prev-month-btn');
             const nextMonthBtn = document.getElementById('next-month-btn');
-
-            let currentDate = new Date(); // La date est maintenant gérée dynamiquement
+            let currentDate = new Date();
             currentDate.setDate(1);
 
-            const monthFormatter = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' });
-            const weekdayFormatter = new Intl.DateTimeFormat('fr-FR', { weekday: 'short' });
+            const monthFormatter = new Intl.DateTimeFormat('fr-FR', {
+                month: 'long',
+                year: 'numeric'
+            });
+            const weekdayFormatter = new Intl.DateTimeFormat('fr-FR', {
+                weekday: 'short'
+            });
 
             function changeMonth(direction) {
                 currentDate.setMonth(currentDate.getMonth() + direction);
@@ -557,14 +457,13 @@
                     button.className = 'flex-center flex-column scheduleButton';
                     button.dataset.date = dateString;
 
-                    if (sampleEvents[dateString]) {
+                    // On vérifie si la date existe dans nos VRAIES données
+                    if (eventsByDate[dateString]) {
                         button.classList.add('has-events');
                     }
 
-                    button.innerHTML = `
-                    <span class="fw-semibold">${i}</span>
-                    <span class="date">${weekdayFormatter.format(dayDate).replace('.', '')}</span>
-                `;
+                    button.innerHTML =
+                        `<span class="fw-semibold">${i}</span><span class="date">${weekdayFormatter.format(dayDate).replace('.', '')}</span>`;
 
                     button.onclick = () => {
                         const currentActive = dayContainer.querySelector('.active');
@@ -572,116 +471,82 @@
                             currentActive.classList.remove('active');
                         }
                         button.classList.add('active');
-                        displayEventsForDate(dateString);
+                        displayEventsForDate(dateString); // Affiche les événements pour la date cliquée
                     };
-
                     dayContainer.appendChild(button);
                 }
 
-                const today = new Date();
-                const todayString = formatDate(today);
-                const todayButton = dayContainer.querySelector(`[data-date='${todayString}']`);
-
+                // Logique pour sélectionner le jour d'aujourd'hui au chargement
+                const todayButton = dayContainer.querySelector(`[data-date='${formatDate(new Date())}']`);
                 if (todayButton) {
                     todayButton.click();
-                    todayButton.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    todayButton.scrollIntoView({
+                        behavior: 'smooth',
+                        inline: 'center',
+                        block: 'nearest'
+                    });
                 } else {
-                    const firstButton = dayContainer.querySelector('.scheduleButton');
-                    if (firstButton) {
-                        firstButton.click();
-                    } else {
-                        displayEventsForDate(null); // Gère le cas d'un mois sans jours (ne devrait pas arriver)
-                    }
+                    dayContainer.querySelector('.scheduleButton')?.click();
                 }
             }
 
-            // --- FONCTION D'AFFICHAGE DE LA LISTE (MISE À JOUR) ---
+            // --- FONCTION D'AFFICHAGE DE LA LISTE (CORRIGÉE) ---
             function displayEventsForDate(dateString) {
-                const events = sampleEvents[dateString] || [];
+                const events = eventsByDate[dateString] || [];
                 eventListContainer.innerHTML = '';
 
                 if (events.length === 0) {
-                    eventListContainer.innerHTML = '<p class="text-center text-muted">Aucune réservation pour ce jour.</p>';
+                    eventListContainer.innerHTML =
+                        '<p class="text-center text-muted mt-5">Aucune réservation pour ce jour.</p>';
                     return;
                 }
 
-                events.forEach((event, index) => {
-                    const eventDiv = document.createElement('div');
-                    // Utilise les classes de votre structure
-                    eventDiv.className = 'w-100 event-list-item p-4';
-
-                    // Formatage du prix
-                    const formattedPrice = new Intl.NumberFormat('fr-FR').format(event.total_a_payer) + ' FCFA';
-
-                    eventDiv.innerHTML = `
-                    <div class="d-flex justify-content-between align-items-start gap-4">
-                        <div class="d-flex justify-content-start align-items-start gap-4">
-                            <div class="icon-container flex-center">
-                                <i class="ph ph-calendar-check"></i>
+                events.forEach(event => {
+                    const eventCard = document.createElement('div');
+                    eventCard.innerHTML = `
+            <a href="${event.details_url}" class="text-decoration-none text-dark d-block reservation-item">
+                <div class="cash-register-card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-body pb-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="flex-shrink-0">
+                                <div class="d-flex justify-content-center align-items-center bg-success-subtle text-success rounded-circle" style="width: 50px; height: 50px;">
+                                    <i class="ph-bold ph-calendar-check" style="font-size: 24px;"></i>
+                                </div>
                             </div>
-                            <div class="">
-                                <p class="fw-bold event-name">${event.client}</p>
-                                <p class="d-inline-flex justify-content-start align-items-center py-1 flex-wrap">
-                                    <span class="event-category">Salle : ${event.salle}</span>
-                                </p>
+                            <div class="flex-grow-1">
+                                <h3 class="fw-bold fs-6 mb-1 client-name">${event.client_nom}</h3>
+                                <p class="text-muted small mb-2">Salle: ${event.salle_nom}</p>
+                                <div class="d-flex align-items-center gap-2 small text-dark">
+                                    <i class="ph-fill ph-clock"></i>
+                                    <span class="fw-medium reservation-date">${event.start_date_formatted}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center pt-4">
-                        <a href="#" class="event-details-link details-btn" data-date="${dateString}" data-index="${index}">
-                            Voir les détails de la réservation
-                        </a>
-                        <div class="custom-border-area position-relative mx-3"></div>
-                        <p class="fs-5 event-price">${formattedPrice}</p>
+                    <hr class="my-0">
+                    <div class="card-footer bg-transparent border-0 pt-2">
+                        <div class="row text-center">
+                            <div class="col">
+                                <span class="text-muted small d-block">Total</span>
+                                <strong class="fw-bold small">${event.montant_total}</strong>
+                            </div>
+                            <div class="col">
+                                <span class="text-muted small d-block">Versé</span>
+                                <strong class="fw-bold small text-success">${event.montant_payer}</strong>
+                            </div>
+                            <div class="col">
+                                <span class="text-muted small d-block">Restant</span>
+                                <strong class="fw-bold small text-danger">${event.montant_restant}</strong>
+                            </div>
+                        </div>
                     </div>
-                `;
-                    eventListContainer.appendChild(eventDiv);
-                });
-
-                // Attacher les écouteurs aux nouveaux boutons
-                document.querySelectorAll('.details-btn').forEach(button => {
-                    button.onclick = (e) => {
-                        e.preventDefault(); // Empêche le lien de remonter la page
-                        const date = button.dataset.date;
-                        const index = button.dataset.index;
-                        const event = sampleEvents[date][index];
-                        showReservationDetails(event);
-                    };
+                </div>
+            </a>
+        `;
+                    eventListContainer.appendChild(eventCard);
                 });
             }
 
-            // --- FONCTION POUR MONTRER LA NOUVELLE MODALE DE DÉTAILS ---
-            function showReservationDetails(event) {
-                const numberFormatter = new Intl.NumberFormat('fr-FR');
-
-                document.getElementById('res-client').textContent = event.client;
-                document.getElementById('res-salle').textContent = event.salle;
-                document.getElementById('res-date-debut').textContent = event.date_debut;
-                document.getElementById('res-date-fin').textContent = event.date_fin;
-                document.getElementById('res-montant-salle').textContent = numberFormatter.format(event.montant_salle) + ' FCFA';
-                document.getElementById('res-caution').textContent = numberFormatter.format(event.caution) + ' FCFA';
-                document.getElementById('res-montant-services').textContent = numberFormatter.format(event.montant_services) + ' FCFA';
-                document.getElementById('res-reduction').textContent = numberFormatter.format(event.reduction) + ' FCFA';
-                document.getElementById('res-total').textContent = numberFormatter.format(event.total_a_payer) + ' FCFA';
-
-                // Gérer la liste des services
-                const servicesListEl = document.getElementById('res-services-list');
-                servicesListEl.innerHTML = '';
-                if (event.services_inclus && event.services_inclus.length > 0 && event.services_inclus[0] !== 'Aucun service inclus') {
-                    const ul = document.createElement('ul');
-                    ul.className = 'list-unstyled ps-3';
-                    event.services_inclus.forEach(service => {
-                        const li = document.createElement('li');
-                        li.textContent = `- ${service}`;
-                        ul.appendChild(li);
-                    });
-                    servicesListEl.appendChild(ul);
-                } else {
-                    servicesListEl.textContent = 'Aucun service inclus';
-                }
-
-                reservationModal.style.display = 'flex';
-            }
 
             function formatDate(date) {
                 const d = new Date(date);
@@ -691,7 +556,7 @@
                 return `${year}-${month}-${day}`;
             }
 
-            // Initialisation
+            // Initialisation du calendrier
             updateCalendar();
         });
     </script>

@@ -24,7 +24,7 @@
             <!-- les reservations à venir -->
             <!-- Assurez-vous d'avoir inclus Bootstrap 5 et Phosphor Icons dans votre projet -->
             @foreach ($reservations as $reservation)
-                <a href="{{ route('doctor.profile') }}" class="text-decoration-none text-dark d-block reservation-item">
+                <a href="{{ route('detailsReservation',$reservation->id) }}" class="text-decoration-none text-dark d-block reservation-item">
                     <div class="cash-register-card shadow-sm border-0 rounded-3 mb-3">
                         <!-- Section 1: Informations sur la réservation (Client, Salle, Date) -->
                         <div class="card-body pb-2">
@@ -129,7 +129,6 @@
     });
 </script>
 
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+   
     <!-- Top Doctor End -->
 @endsection
