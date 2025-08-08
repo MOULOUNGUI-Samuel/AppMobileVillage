@@ -83,23 +83,19 @@
                     <div class="card cash-box-card border-0 shadow-sm h-100" style="border-radius: 1rem; cursor: pointer;"
                         data-caisse-id="{{ $caisse->id }}">
                         <div class="card-body">
-                            <h5 class="fw-bold fs-6 mb-2 text-dark">
+                            <h5 class="fw-bold fs-6 mb-2 text-dark" style="font-size: 18px">
                                 <i class="ph-fill ph-wallet me-2 text-muted"></i>
-                                {{ $caisse->nom }}
+                                {{ Str::limit($caisse->nom  , 15, '...') }}
                             </h5>
-                            <small class="text-muted">Solde actuel</small>
+                            <small class="text-muted" style="font-size: 16px">Solde actuel</small>
                             <p class="fs-4 fw-bolder text-dark mb-0">
                                 {{ number_format($caisse->solde ?? 0, 0, ',', ' ') }} <span
                                     class="fs-6 fw-normal">FCFA</span>
                             </p>
-                            <div class="card-footer bg-transparent border-0 pt-0 px-3 pb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="ph ph-user-circle fs-5 text-muted"></i>
-                                        {{-- Donnée dynamique depuis la relation 'user' --}}
-                                        <span class="small text-muted">ok</span>
-                                    </div>
-                                </div>
+                            <div class="d-flex align-items-center gap-2" style="font-size: 16px">
+                                <i class="ph ph-user-circle fs-5 text-muted"></i>
+                                {{-- Donnée dynamique depuis la relation 'user' --}}
+                                <span class="small text-muted">{{ Str::limit($caisse->user->nom  , 15, '...') }}</span>
                             </div>
                         </div>
                     </div>
