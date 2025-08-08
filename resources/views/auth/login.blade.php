@@ -15,9 +15,106 @@
     <link rel="manifest" href="/manifest.json">
     <!-- ========================================= -->
 </head>
+<style>
+    /* Style pour le bouton d'installation (Android) */
+#installBtn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: #4a2f26; /* Votre couleur de thème */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    animation: fadeInUp 0.5s 0.5s ease forwards;
+    z-index: 9999;
+}
 
+/* Style pour la bannière d'instructions (iOS) */
+#ios-install-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 10px;
+    right: 10px;
+    background-color: rgba(40, 40, 40, 0.95);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 15px;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    animation: fadeInUp 0.5s 0.5s ease forwards;
+}
+
+#ios-install-banner .share-icon {
+    display: inline-block;
+    vertical-align: text-bottom;
+    width: 20px;
+    height: 20px;
+    margin: 0 2px;
+}
+
+#close-install-banner {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    line-height: 1;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/* Animation commune pour l'apparition */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) translateX(-50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
+}
+/* Ajustement pour la bannière qui est en pleine largeur */
+#ios-install-banner {
+    animation-name: slideUpFull;
+}
+@keyframes slideUpFull {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
 <body style="background-color: #e2dccccd">
     <main class="flex-center h-100">
+        <!-- Ce bouton sera utilisé par Android/Chrome -->
+<button id="installBtn" class="d-none"></button>
+
+<!-- Cette bannière sera utilisée par iOS -->
+<div id="ios-install-banner" class="d-none">
+    <button id="close-install-banner" aria-label="Fermer">&times;</button>
+    Pour une meilleure expérience, ajoutez cette application à votre écran d'accueil. Appuyez sur 
+    <img src="https://img.icons8.com/ios/50/ffffff/share-3.png" alt="Share Icon" class="share-icon"> 
+    puis sur "Sur l'écran d'accueil".
+</div>
         <section class="sign-in-area">
             <!-- Logo/Image -->
             <img src='{{ asset('assets/img/logo1.png') }}' alt="Logo YODI EVENTS" class="mb-3"
@@ -70,72 +167,101 @@
 
     <!-- ============ SCRIPT D'INSTALLATION PWA CORRIGÉ ============ -->
     <script>
-        // On enregistre le service worker depuis le chemin racine public
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('✅ Service Worker enregistré avec succès:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.error('❌ Échec de l\'enregistrement du Service Worker:', error);
-                    });
+       // ===============================================
+//         SCRIPT PWA COMPLET ET UNIVERSEL
+// ===============================================
+
+// Enregistrement robuste du Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('✅ Service Worker enregistré avec succès:', registration.scope);
+            })
+            .catch(error => {
+                console.error('❌ Échec de l\'enregistrement du Service Worker:', error);
             });
+    });
+}
+
+// Logique d'installation gérant Android et iOS
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- Fonctions utilitaires ---
+    const isIos = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+    const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+    // Si l'application est déjà installée, on ne fait rien.
+    if (isInStandaloneMode()) {
+        console.log("🚀 Application lancée en mode standalone.");
+        return;
+    }
+
+    // --- Logique pour iOS ---
+    if (isIos()) {
+        const banner = document.getElementById('ios-install-banner');
+        if(banner) {
+            banner.classList.remove('d-none'); // On affiche la bannière d'instructions
         }
 
-        // Votre code pour le bouton d'installation personnalisé (il est déjà bon !)
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
+        const closeBtn = document.getElementById('close-install-banner');
+        if(closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                banner.style.display = 'none';
+            });
+        }
+    }
 
-            // Supprime un ancien bouton s'il existe
-            const oldBtn = document.getElementById('installBtn');
-            if(oldBtn) oldBtn.remove();
-            
-            const btn = document.createElement('button');
-            btn.textContent = '📲 Installer sur mon téléphone !';
-            btn.id = 'installBtn';
-            document.body.appendChild(btn);
+    // --- Logique pour Android & Chrome Desktop ---
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // L'événement est déclenché, mais on l'empêche si on est sur iOS (double sécurité)
+        if (isIos()) {
+            return;
+        }
+        
+        // Empêche la mini-infobulle de Chrome de s'afficher
+        e.preventDefault();
+        // Sauvegarde l'événement pour pouvoir le déclencher plus tard
+        deferredPrompt = e;
 
-            const style = document.createElement('style');
-            style.innerHTML = `
-                #installBtn {
-                    position: fixed;
-                   top: 50px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    padding: 12px 24px;
-                    background: #4a2f26;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    font-size: 16px;
-                    cursor: pointer;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                    opacity: 0;
-                    animation: fadeInUp 0.5s 0.5s ease forwards;
-                    z-index: 9999;
-                }
-                @keyframes fadeInUp {
-                    to { opacity: 1; transform: translateX(-50%) translateY(0); }
-                }
-            `;
-            document.head.appendChild(style);
+        // Met à jour l'interface utilisateur pour notifier l'utilisateur qu'il peut installer la PWA
+        const installBtn = document.getElementById('installBtn');
+        if(installBtn) {
+            installBtn.textContent = '📲 Installer sur mon téléphone !';
+            installBtn.classList.remove('d-none'); // Affiche notre bouton personnalisé
 
-            btn.addEventListener('click', () => {
-                btn.style.display = 'none';
+            installBtn.addEventListener('click', () => {
+                // Cache notre bouton
+                installBtn.style.display = 'none';
+                // Affiche la demande d'installation
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(choice => {
-                    if (choice.outcome === 'accepted') {
-                        console.log("✅ L'application a été installée !");
+                
+                // Attend le choix de l'utilisateur
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('✅ L\'utilisateur a accepté l\'installation');
                     } else {
-                        console.log("❌ L'installation a été refusée.");
+                        console.log('❌ L\'utilisateur a refusé l\'installation');
                     }
                     deferredPrompt = null;
                 });
             });
-        });
+        }
+    });
+
+    // Écouteur pour savoir quand la PWA a été installée avec succès
+    window.addEventListener('appinstalled', () => {
+        console.log('🎉 PWA installée avec succès !');
+        // Cache le bouton d'installation si l'événement a lieu
+        const installBtn = document.getElementById('installBtn');
+        if (installBtn) {
+            installBtn.style.display = 'none';
+        }
+        deferredPrompt = null;
+    });
+
+});
     </script>
     {{-- <script>
         // 🔌 GESTION CONNEXION PERDUE
