@@ -7,7 +7,7 @@
     <!-- Top Doctor Start -->
     <section class="px-6 pt-6 top-doctor-area">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="color-primary">A venir : {{count($reservations)}}</h3>
+            <h5 class="color-primary">A venir : {{ count($reservations) }}</h3>
         </div>
 
         <div class="d-flex flex-column gap-4 pt-4">
@@ -24,6 +24,48 @@
             <!-- les reservations à venir -->
             <!-- Assurez-vous d'avoir inclus Bootstrap 5 et Phosphor Icons dans votre projet -->
             @forelse ($reservations as $reservation)
+                @php
+                                        // Initialisez la variable comme un objet vide ici
+                    $dateFinContrat = new stdClass();
+
+                    $dateFin = \Carbon\Carbon::parse($reservation->end_date); // J'ai corrigé 'start_end' en 'end_date', qui est plus courant
+                    $dateActuelle = \Carbon\Carbon::now();
+                    $joursRestants = $dateActuelle->startOfDay()->diffInDays($dateFin->startOfDay(), false);
+
+                    // Maintenant, ces lignes fonctionneront car $dateFinContrat existe
+                    $dateFinContrat->jours_restants = $joursRestants;
+                    $dateFinContrat->contrat = $dateFin->format('d/m/Y');
+
+                    if ($joursRestants < 0) {
+                        $periodeContrat = 'Expiré';
+                    } elseif ($joursRestants == 0) {
+                        $periodeContrat = "Aujourd'hui";
+                    } elseif ($joursRestants == 1) {
+                        $periodeContrat = 'Demain'; // 💡 plus logique que 'Hier' ici
+                    } elseif ($joursRestants < 7) {
+                        $periodeContrat = "Dans $joursRestants j";
+                    } elseif ($joursRestants < 30) {
+                        $weeks = floor($joursRestants / 7);
+                        $remainingDays = $joursRestants % 7;
+                        $periodeContrat = "Dans $weeks s" . ($weeks > 1 ? 's' : '');
+                        if ($remainingDays > 0) {
+                            $periodeContrat .= " , $remainingDays j" . ($remainingDays > 1 ? 's' : '');
+                        }
+                    } else {
+                        $months = floor($joursRestants / 30);
+                        $remainingDays = $joursRestants % 30;
+                        $weeks = floor($remainingDays / 7);
+                        $extraDays = $remainingDays % 7;
+
+                        $periodeContrat = "Dans $months mois";
+                        if ($weeks > 0) {
+                            $periodeContrat .= " , $weeks s" . ($weeks > 1 ? 's' : '');
+                        }
+                        if ($extraDays > 0) {
+                            $periodeContrat .= " , $extraDays j" . ($extraDays > 1 ? 's' : '');
+                        }
+                    }
+                @endphp
                 <a href="{{ route('detailsReservation', $reservation->id) }}"
                     class="text-decoration-none text-dark d-block reservation-item">
                     <div class="cash-register-card shadow-sm border-0 rounded-3 mb-3">
@@ -43,9 +85,14 @@
                                     <h3 class="fw-bold fs-6 mb-1 client-name color-primary">
                                         {{ Str::limit($reservation->client->nom . ' ' . $reservation->client->prenom, 20, '...') }}
                                     </h3>
-                                    <p class="text-muted small mb-2 ">
-                                        Salle: {{ $reservation->salle->nom }}
-                                    </p>
+                                    <div class="d-flex justify-content-between  mb-2">
+                                        <p class="text-muted small">
+                                            Salle: {{ $reservation->salle->nom }}
+                                        </p>
+                                        <p class="text-muted small badge border border-muted rounded-pill">
+                                            {{ $periodeContrat }}
+                                        </p>
+                                    </div>
                                     <div class="d-flex align-items-center gap-2 small text-dark">
                                         <i class="ph-fill ph-clock"></i>
                                         <span
