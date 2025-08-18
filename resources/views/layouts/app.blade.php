@@ -1142,8 +1142,11 @@
             const popup = document.createElement('div');
             popup.id = 'offline-popup';
             popup.innerHTML = `
-            <div class="alert alert-danger text-center position-fixed bottom-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
+            <div class="alert alert-danger text-center position-fixed top-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
                 📡 Connexion perdue.
+                <button class="btn btn-light btn-sm ms-3" onclick="location.reload();">
+        🔄 Rafraîchir
+    </button>
             </div>
         `;
             document.body.appendChild(popup);
@@ -1153,7 +1156,7 @@
             const popup = document.createElement('div');
             popup.id = 'online-popup';
             popup.innerHTML = `
-            <div class="alert alert-success text-center position-fixed bottom-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
+            <div class="alert alert-success text-center position-fixed top-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
                 ✅ Connexion rétablie.
             </div>
         `;
@@ -1193,7 +1196,7 @@
                     }
 
                     const quality = document.createElement('div');
-                    quality.className = 'alert alert-info text-center position-fixed bottom-0 start-0 end-0 m-3 shadow';
+                    quality.className = 'alert alert-info text-center position-fixed top-0 start-0 end-0 m-3 shadow';
                     quality.style.zIndex = 9999;
                     quality.innerText = message;
                     document.body.appendChild(quality);
