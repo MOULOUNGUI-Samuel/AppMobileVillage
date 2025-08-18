@@ -43,13 +43,13 @@
                     } elseif ($joursRestants == 1) {
                         $periodeContrat = 'Demain'; // 💡 plus logique que 'Hier' ici
                     } elseif ($joursRestants < 7) {
-                        $periodeContrat = "Dans $joursRestants j";
+                        $periodeContrat = "$joursRestants jours";
                     } elseif ($joursRestants < 30) {
                         $weeks = floor($joursRestants / 7);
                         $remainingDays = $joursRestants % 7;
-                        $periodeContrat = "Dans $weeks s" . ($weeks > 1 ? 's' : '');
+                        $periodeContrat = "$weeks semaine" . ($weeks > 1 ? 's' : '');
                         if ($remainingDays > 0) {
-                            $periodeContrat .= " , $remainingDays j" . ($remainingDays > 1 ? 's' : '');
+                            $periodeContrat .= " , $remainingDays jour" . ($remainingDays > 1 ? 's' : '');
                         }
                     } else {
                         $months = floor($joursRestants / 30);
@@ -57,12 +57,12 @@
                         $weeks = floor($remainingDays / 7);
                         $extraDays = $remainingDays % 7;
 
-                        $periodeContrat = "Dans $months mois";
+                        $periodeContrat = "$months mois";
                         if ($weeks > 0) {
-                            $periodeContrat .= " , $weeks s" . ($weeks > 1 ? 's' : '');
+                            $periodeContrat .= " , $weeks semaine" . ($weeks > 1 ? 's' : '');
                         }
                         if ($extraDays > 0) {
-                            $periodeContrat .= " , $extraDays j" . ($extraDays > 1 ? 's' : '');
+                            $periodeContrat .= " , $extraDays jour" . ($extraDays > 1 ? 's' : '');
                         }
                     }
                 @endphp
@@ -70,6 +70,9 @@
                     class="text-decoration-none text-dark d-block reservation-item">
                     <div class="cash-register-card shadow-sm border-0 rounded-3 mb-3">
                         <!-- Section 1: Informations sur la réservation (Client, Salle, Date) -->
+                        <p class="text-muted small mb-1" style="margin-top: -15px;text-align:right" >
+                            {{ $periodeContrat }}
+                        </p>
                         <div class="card-body pb-2">
                             <div class="d-flex align-items-center gap-3">
                                 <!-- Icône -->
@@ -85,20 +88,16 @@
                                     <h3 class="fw-bold fs-6 mb-1 client-name color-primary">
                                         {{ Str::limit($reservation->client->nom . ' ' . $reservation->client->prenom, 20, '...') }}
                                     </h3>
-                                    <div class="d-flex justify-content-between  mb-2">
-                                        <p class="text-muted small">
+                                        <p class="text-muted small  mb-2">
                                             Salle: {{ $reservation->salle->nom }}
                                         </p>
-                                        <p class="text-muted small badge border border-muted rounded-pill">
-                                            {{ $periodeContrat }}
-                                        </p>
-                                    </div>
                                     <div class="d-flex align-items-center gap-2 small text-dark">
                                         <i class="ph-fill ph-clock"></i>
                                         <span
                                             class="fw-medium reservation-date color-primary">{{ \App\Helpers\DateHelper::convertirDateEnTexte(App\Helpers\DateHelper::convertirDateFormat($reservation->start_date)) }}</span>
                                     </div>
                                 </div>
+                               
                             </div>
                         </div>
 
@@ -128,6 +127,7 @@
                                 </div>
                             </div>
                         </div>
+                       
                     </div>
                 </a>
             @empty
