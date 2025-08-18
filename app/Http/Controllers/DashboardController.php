@@ -17,7 +17,7 @@ class DashboardController extends Controller
             ->whereHas('client', function ($query) use ($entreprise_id) {
                 $query->where('entreprise_id', $entreprise_id);
             })
-            ->orderBy('start_date', 'desc') // Tri décroissant
+            ->orderBy('start_date', 'asc') // Tri décroissant
             ->where('end_date', '>=', now()) // ✅ encore à venir
             ->get();
         return view('dashboard', compact('reservations'));
