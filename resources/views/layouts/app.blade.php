@@ -556,14 +556,14 @@
                 </div>
                 <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap" style="margin-top: -25px">
                     {{-- Bouton Notification --}}
-                    <button
+                    {{-- <button
                         class="btn btn-outline-light position-relative d-flex align-items-center justify-content-center p-2"
                         id="notificationModalOpenButton" style="border: 1px solid #4b2317; border-radius: 10px;">
                         <i class="ph ph-bell fs-5 color-primary"></i>
                         <span
                             class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
                         </span>
-                    </button>
+                    </button> --}}
 
                     {{-- Bouton Déconnexion --}}
                     <button
@@ -641,7 +641,8 @@
                 <!-- bouton  ou icone -->
                 <div class="plus-icon position-absolute">
                     <div class="position-relative">
-                        <button id="specialityModalOpenButton">
+                        {{-- <button id="specialityModalOpenButton"> --}}
+                        <button>
                             <img src="assets/img/plus-icon-bg.png" class="" alt="" />
                             <i class="ph ph-plus-circle"></i>
                         </button>

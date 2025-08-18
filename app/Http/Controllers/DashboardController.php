@@ -18,6 +18,7 @@ class DashboardController extends Controller
                 $query->where('entreprise_id', $entreprise_id);
             })
             ->orderBy('start_date', 'desc') // Tri décroissant
+            ->where('start_date', '>=', now()) // ✅ encore à venir
             ->get();
         return view('dashboard', compact('reservations'));
     }

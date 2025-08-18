@@ -23,8 +23,9 @@
             </div>
             <!-- les reservations à venir -->
             <!-- Assurez-vous d'avoir inclus Bootstrap 5 et Phosphor Icons dans votre projet -->
-            @foreach ($reservations as $reservation)
-                <a href="{{ route('detailsReservation',$reservation->id) }}" class="text-decoration-none text-dark d-block reservation-item">
+            @forelse ($reservations as $reservation)
+                <a href="{{ route('detailsReservation', $reservation->id) }}"
+                    class="text-decoration-none text-dark d-block reservation-item">
                     <div class="cash-register-card shadow-sm border-0 rounded-3 mb-3">
                         <!-- Section 1: Informations sur la réservation (Client, Salle, Date) -->
                         <div class="card-body pb-2">
@@ -82,7 +83,12 @@
                         </div>
                     </div>
                 </a>
-            @endforeach
+            @empty
+                <div class="text-center text-muted mt-5">
+                    <i class="ph-xl ph-magnifying-glass"></i>
+                    <h5 class="mt-3">Aucune réservation à venir.</h5>
+                </div>
+            @endforelse
             <!-- AJOUTER CET ÉLÉMENT -->
             <div id="noResultsMessage" class="text-center text-muted mt-5 d-none">
                 <i class="ph-xl ph-magnifying-glass"></i>
@@ -93,42 +99,42 @@
 
     </section>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('searchInput');
-        const reservationItems = document.querySelectorAll('.reservation-item');
-        const noResultsMessage = document.getElementById('noResultsMessage');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const reservationItems = document.querySelectorAll('.reservation-item');
+            const noResultsMessage = document.getElementById('noResultsMessage');
 
-        function normalize(str) {
-            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-        }
+            function normalize(str) {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+            }
 
-        searchInput.addEventListener('input', function () {
-            const searchTerm = normalize(this.value);
-            let found = false;
+            searchInput.addEventListener('input', function() {
+                const searchTerm = normalize(this.value);
+                let found = false;
 
-            reservationItems.forEach(function (item) {
-                const nameEl = item.querySelector('.client-name');
-                const dateEl = item.querySelector('.reservation-date');
+                reservationItems.forEach(function(item) {
+                    const nameEl = item.querySelector('.client-name');
+                    const dateEl = item.querySelector('.reservation-date');
 
-                const name = nameEl ? normalize(nameEl.textContent) : '';
-                const date = dateEl ? normalize(dateEl.textContent) : '';
+                    const name = nameEl ? normalize(nameEl.textContent) : '';
+                    const date = dateEl ? normalize(dateEl.textContent) : '';
 
-                const match = name.includes(searchTerm) || date.includes(searchTerm);
+                    const match = name.includes(searchTerm) || date.includes(searchTerm);
 
-                if (match) {
-                    item.classList.remove('d-none');
-                    found = true;
-                } else {
-                    item.classList.add('d-none');
-                }
+                    if (match) {
+                        item.classList.remove('d-none');
+                        found = true;
+                    } else {
+                        item.classList.add('d-none');
+                    }
+                });
+
+                // Affiche ou masque le message
+                noResultsMessage.classList.toggle('d-none', found);
             });
-
-            // Affiche ou masque le message
-            noResultsMessage.classList.toggle('d-none', found);
         });
-    });
-</script>
+    </script>
 
-   
+
     <!-- Top Doctor End -->
 @endsection

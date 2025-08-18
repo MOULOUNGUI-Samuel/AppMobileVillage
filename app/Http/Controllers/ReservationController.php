@@ -53,6 +53,7 @@ class ReservationController extends Controller
             $query->where('entreprise_id', $entreprise_id);
         })
             ->where('id', $id)
+            
             ->firstOrFail();
     
         $caution = Caution::where('reservation_id', $reservation->id)->first();
@@ -97,6 +98,7 @@ class ReservationController extends Controller
                 $query->where('entreprise_id', $entreprise_id);
             })
             ->orderBy('start_date', 'desc')
+            
             ->get();
     
         $informations_reserves = [];
