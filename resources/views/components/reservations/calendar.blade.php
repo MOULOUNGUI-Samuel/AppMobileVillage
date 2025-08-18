@@ -316,13 +316,15 @@
     <!-- La balise ouvrante est ici... -->
     <div class="schedule-section w-100 px-6 pt-8 overflow-hidden mx-1" style="margin-top: -30px">
         <div class="d-flex justify-content-between align-items-center pb-5">
-            <h6 class="ml-2 color-primary">Mes réservations</h6>
+            <h6>Mes réservations</h6>
             <div class="flex-center gap-3">
                 <button id="prev-month-btn" class="month-navigation-button flex-center">
                     <i class="ph ph-caret-left" style="font-size: 13px"></i>
                 </button>
-                <div id="calendarModalOpenButton" style="cursor: pointer;">
-                    <p id="currentMonthDisplay" class="fw-bold text-center color-primary">Juillet 2025</p>
+                <div>
+                    <p id="currentMonthDisplay" class="fw-bold text-center mb-0">Juillet 2025</p>
+                    <!-- BOUTON AJOUTÉ -->
+                    <button id="show-all-month-btn" class="btn btn-link btn-sm p-0 d-none">Voir tout le mois</button>
                 </div>
                 <button id="next-month-btn" class="month-navigation-button flex-center">
                     <i class="ph ph-caret-right" style="font-size: 13px"></i>
@@ -337,17 +339,37 @@
 
     <!-- Formulaire de recherche par période -->
     </div>
-
-    <!-- Conteneur pour la barre des jours, affiché par défaut -->
+    <style>
+        .loader-container {
+            width: 100%;
+            /* Prend toute la largeur disponible */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            /* Ajoute un peu d'espace */
+            min-height: 150px;
+            /* Donne une hauteur minimale pour éviter que la page ne saute */
+        }
+    </style>
+    <!-- Conteneur pour la barre des jours -->
     <div id="schedule-day-scroller" class="schedule-area mx-2">
         <div class="schedule-day d-flex justify-content-start align-items-center gap-3 overflow-auto pb-3">
-            <!-- Les jours seront générés par JS ici -->
+
         </div>
     </div>
 
-    <!-- Conteneur pour la liste des événements (commun aux deux vues) -->
+    <!-- Conteneur pour la liste des événements -->
     <div id="event-list-container" class="d-flex flex-column gap-4 px-6 pt-4">
-        <!-- Le contenu sera généré par JS ici -->
+
+        <!-- ======================= LOADER AJOUTÉ ICI ======================= -->
+        <div class="loader-container">
+            <div class="spinner-border color-primary" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+        </div>
+        <!-- =================================================================== -->
+
     </div>
 
     <!-- Le conteneur pour la liste des événements sera rempli ici -->
@@ -409,7 +431,7 @@
     <!-- ======================= SCRIPT MIS À JOUR ======================= -->
     <!-- SCRIPT CORRIGÉ -->
     <script>
-        const eventsByDate = @json($informations_reserves);
+        const eventsByDate = @json($informations_reserves ?? []);
 
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -419,6 +441,7 @@
             const dayContainer = document.getElementById('schedule-day-container');
             const prevMonthBtn = document.getElementById('prev-month-btn');
             const nextMonthBtn = document.getElementById('next-month-btn');
+            const showAllMonthBtn = document.getElementById('show-all-month-btn'); // Le nouveau bouton
             let currentDate = new Date();
             currentDate.setDate(1);
 
@@ -432,15 +455,24 @@
 
             function changeMonth(direction) {
                 currentDate.setMonth(currentDate.getMonth() + direction);
-                updateCalendar();
+                updateCalendarDisplay();
             }
 
             prevMonthBtn.onclick = () => changeMonth(-1);
             nextMonthBtn.onclick = () => changeMonth(1);
 
-            function updateCalendar() {
+            // Action pour le bouton "Voir tout le mois"
+            showAllMonthBtn.onclick = () => {
+                dayContainer.querySelector('.active')?.classList.remove('active');
+                showAllMonthBtn.classList.add('d-none');
+                displayEventsForMonth(currentDate);
+            };
+
+            function updateCalendarDisplay() {
                 monthDisplay.textContent = monthFormatter.format(currentDate).replace(/^\w/, c => c.toUpperCase());
                 renderDayScroller();
+                // CORRECTION: Affiche les événements du mois au lieu de cliquer sur un jour
+                displayEventsForMonth(currentDate);
             }
 
             function renderDayScroller() {
@@ -457,7 +489,6 @@
                     button.className = 'flex-center flex-column scheduleButton';
                     button.dataset.date = dateString;
 
-                    // On vérifie si la date existe dans nos VRAIES données
                     if (eventsByDate[dateString]) {
                         button.classList.add('has-events');
                     }
@@ -465,32 +496,48 @@
                     button.innerHTML =
                         `<span class="fw-semibold">${i}</span><span class="date">${weekdayFormatter.format(dayDate).replace('.', '')}</span>`;
 
+                    // CORRECTION: Le clic affiche maintenant les événements du jour
                     button.onclick = () => {
-                        const currentActive = dayContainer.querySelector('.active');
-                        if (currentActive) {
-                            currentActive.classList.remove('active');
-                        }
+                        dayContainer.querySelector('.active')?.classList.remove('active');
                         button.classList.add('active');
-                        displayEventsForDate(dateString); // Affiche les événements pour la date cliquée
+                        showAllMonthBtn.classList.remove('d-none'); // Affiche le bouton "Voir tout le mois"
+                        displayEventsForDate(dateString);
                     };
                     dayContainer.appendChild(button);
                 }
-
-                // Logique pour sélectionner le jour d'aujourd'hui au chargement
-                const todayButton = dayContainer.querySelector(`[data-date='${formatDate(new Date())}']`);
-                if (todayButton) {
-                    todayButton.click();
-                    todayButton.scrollIntoView({
-                        behavior: 'smooth',
-                        inline: 'center',
-                        block: 'nearest'
-                    });
-                } else {
-                    dayContainer.querySelector('.scheduleButton')?.click();
-                }
             }
 
-            // --- FONCTION D'AFFICHAGE DE LA LISTE (CORRIGÉE) ---
+            // --- NOUVELLE FONCTION: Affiche les événements pour le mois entier ---
+            function displayEventsForMonth(date) {
+                eventListContainer.innerHTML = '';
+                let eventsOfMonth = [];
+                const year = date.getFullYear();
+                const month = date.getMonth();
+
+                // On collecte tous les événements du mois
+                for (const dateKey in eventsByDate) {
+                    const eventDate = new Date(dateKey);
+                    if (eventDate.getFullYear() === year && eventDate.getMonth() === month) {
+                        eventsOfMonth = eventsOfMonth.concat(eventsByDate[dateKey]);
+                    }
+                }
+
+                // On trie les événements par date pour un affichage chronologique
+                eventsOfMonth.sort((a, b) => new Date(a.start_date_iso) - new Date(b.start_date_iso));
+
+                if (eventsOfMonth.length === 0) {
+                    eventListContainer.innerHTML =
+                        '<p class="text-center text-muted mt-5">Aucune réservation pour ce mois.</p>';
+                    return;
+                }
+
+                eventsOfMonth.forEach(event => {
+                    const eventCard = createEventCard(event);
+                    eventListContainer.appendChild(eventCard);
+                });
+            }
+
+            // --- FONCTION D'AFFICHAGE POUR UN JOUR (inchangée) ---
             function displayEventsForDate(dateString) {
                 const events = eventsByDate[dateString] || [];
                 eventListContainer.innerHTML = '';
@@ -502,62 +549,68 @@
                 }
 
                 events.forEach(event => {
-                    const eventCard = document.createElement('div');
-                    eventCard.innerHTML = `
-            <a href="${event.details_url}" class="text-decoration-none text-dark d-block reservation-item">
-                <div class="cash-register-card shadow-sm border-0 rounded-3 mb-3">
-                    <div class="card-body pb-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-shrink-0">
-                                <div class="d-flex justify-content-center align-items-center bg-success-subtle text-success rounded-circle" style="width: 50px; height: 50px;">
-                                    <i class="ph-bold ph-calendar-check" style="font-size: 24px;"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h3 class="fw-bold fs-6 mb-1 client-name">${event.client_nom}</h3>
-                                <p class="text-muted small mb-2">Salle: ${event.salle_nom}</p>
-                                <div class="d-flex align-items-center gap-2 small text-dark">
-                                    <i class="ph-fill ph-clock"></i>
-                                    <span class="fw-medium reservation-date">${event.start_date_formatted}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="my-0">
-                    <div class="card-footer bg-transparent border-0 pt-2">
-                        <div class="row text-center">
-                            <div class="col">
-                                <span class="text-muted small d-block">Total</span>
-                                <strong class="fw-bold small">${event.montant_total}</strong>
-                            </div>
-                            <div class="col">
-                                <span class="text-muted small d-block">Versé</span>
-                                <strong class="fw-bold small text-success">${event.montant_payer}</strong>
-                            </div>
-                            <div class="col">
-                                <span class="text-muted small d-block">Restant</span>
-                                <strong class="fw-bold small text-danger">${event.montant_restant}</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        `;
+                    const eventCard = createEventCard(event);
                     eventListContainer.appendChild(eventCard);
                 });
             }
 
+            // --- NOUVELLE FONCTION: Crée le HTML d'une carte (pour éviter la duplication de code) ---
+            function createEventCard(event) {
+                const eventCard = document.createElement('div');
+                eventCard.innerHTML = `
+                <a href="${event.details_url}" class="text-decoration-none text-dark d-block reservation-item">
+                    <div class="cash-register-card shadow-sm border-0 rounded-3 mb-3">
+                        <div class="card-body pb-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="flex-shrink-0">
+                                    <div class="d-flex justify-content-center align-items-center bg-success-subtle text-success rounded-circle" style="width: 50px; height: 50px;">
+                                        <i class="ph-bold ph-calendar-check" style="font-size: 24px;"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h3 class="fw-bold fs-6 mb-1 client-name">${event.client_nom}</h3>
+                                    <p class="text-muted small mb-2">Salle: ${event.salle_nom}</p>
+                                    <div class="d-flex align-items-center gap-2 small text-dark">
+                                        <i class="ph-fill ph-clock"></i>
+                                        <span class="fw-medium reservation-date">${event.start_date_formatted}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-0">
+                        <div class="card-footer bg-transparent border-0 pt-2">
+                            <div class="row text-center">
+                                <div class="col">
+                                    <span class="text-muted small d-block">Total</span><strong class="fw-bold small">${event.montant_total}</strong>
+                                </div>
+                                <div class="col">
+                                    <span class="text-muted small d-block">Versé</span><strong class="fw-bold small text-success">${event.montant_payer}</strong>
+                                </div>
+                                <div class="col">
+                                    <span class="text-muted small d-block">Restant</span><strong class="fw-bold small text-danger">${event.montant_restant}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                `;
+                return eventCard;
+            }
 
             function formatDate(date) {
                 const d = new Date(date);
-                const month = ('0' + (d.getMonth() + 1)).slice(-2);
-                const day = ('0' + d.getDate()).slice(-2);
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
                 const year = d.getFullYear();
                 return `${year}-${month}-${day}`;
             }
 
+            // --- MODIFICATION NÉCESSAIRE DANS LE CONTRÔLEUR ---
+            // Pour que le tri fonctionne, assurez-vous que votre contrôleur ajoute la date au format ISO
+            // 'start_date_iso' => \Carbon\Carbon::parse($reservation->start_date)->toIso8601String(),
+
             // Initialisation du calendrier
-            updateCalendar();
+            updateCalendarDisplay();
         });
     </script>
 @endsection

@@ -28,9 +28,26 @@ class Reservation extends Model
     {
         return $this->belongsTo(Salle::class);
     }
-
+    public function caution()
+    {
+        return $this->hasOne(Caution::class);
+    }
     public function reservationServices()
     {
         return $this->hasMany(ReservationService::class, 'reservation_id');
     }
+
+    public function approbationEvenement()
+    {
+        return $this->hasOne(ApprobaEvenement::class);
+    }
+    
+    /**
+     * Obtenir les mouvements de caisse associés à la réservation.
+     */
+    public function mouvements()
+    {
+        return $this->hasMany(MouvementCaisse::class);
+    }
+
 }

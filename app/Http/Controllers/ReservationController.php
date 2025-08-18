@@ -47,22 +47,22 @@ class ReservationController extends Controller
     public function detailsReservation($id)
     {
         $entreprise_id = Auth::user()->entreprise_id;
-    
+
         $reservation = Reservation::with(['client', 'user', 'salle'])
-        ->whereHas('client', function ($query) use ($entreprise_id) {
-            $query->where('entreprise_id', $entreprise_id);
-        })
+            ->whereHas('client', function ($query) use ($entreprise_id) {
+                $query->where('entreprise_id', $entreprise_id);
+            })
             ->where('id', $id)
-            
+
             ->firstOrFail();
-    
+
         $caution = Caution::where('reservation_id', $reservation->id)->first();
         $approbation = ApprobaEvenement::where('reservation_id', $reservation->id)->first();
-    
+
         $mouvements = MouvementCaisse::with(['reservation.user'])
             ->where('reservation_id', $reservation->id)
             ->get();
-    
+
         // Services liés
         $reservationServices = ReservationService::with('service')
             ->where('reservation_id', $reservation->id)
@@ -76,78 +76,92 @@ class ReservationController extends Controller
                     'total'          => $resService->quantite * $resService->prix_unitaire,
                 ];
             });
-    
+
         $total_services = $reservationServices->sum('total');
-    
+
         // IMPORTANT : renvoyer un PARTIAL sans @extends
         return view('components.reservations.detailsReservation', [
             'reservation'        => $reservation,
             'caution'            => $caution,
             'approbation'        => $approbation,
             'mouvements'         => $mouvements,
-            'reservationServices'=> $reservationServices,
+            'reservationServices' => $reservationServices,
             'total_services'     => $total_services,
         ]);
     }
-    
-    function listeReservation()
+
+    public function listeReservation()
     {
         $entreprise_id = Auth::user()->entreprise_id;
-        $reservations = Reservation::with(['client', 'user', 'salle'])
+
+        // 1. On charge TOUT en une seule fois grâce à l'Eager Loading.
+        // C'est la correction la plus importante pour la performance.
+        $reservations = Reservation::with([
+            'client',
+            'salle',
+            'user',
+            'caution',
+            'approbationEvenement',
+            'reservationServices.service' // On charge même le service lié à la ligne de service
+        ])
             ->whereHas('client', function ($query) use ($entreprise_id) {
                 $query->where('entreprise_id', $entreprise_id);
             })
-            ->orderBy('start_date', 'desc')
-            
+            ->orderBy('start_date', 'asc') // Tri ascendant, plus logique pour un calendrier
             ->get();
-    
+
         $informations_reserves = [];
-    
+
+        // 2. La boucle ne fait plus AUCUNE requête à la base de données.
         foreach ($reservations as $reservation) {
-            $caution = Caution::where('reservation_id', $reservation->id)->first();
-            $approbation = ApprobaEvenement::where('reservation_id', $reservation->id)->first();
-            $mouvements = MouvementCaisse::with(['reservation.user'])
-                ->where('reservation_id', $reservation->id)
-                ->get();
-    
-            $total_services = ReservationService::where('reservation_id', $reservation->id)
-                ->sum('prix_unitaire');
-    
-            $reservationServices = ReservationService::with('service')
-                ->where('reservation_id', $reservation->id)
-                ->get()
-                ->map(function ($resService) {
-                    return [
-                        'service_id' => $resService->service->id,
-                        'service_nom' => $resService->service->nom,
-                        'quantite' => $resService->quantite,
-                        'prix_unitaire' => $resService->prix_unitaire,
-                        'total' => $resService->quantite * $resService->prix_unitaire
-                    ];
-                });
-    
+            // On accède aux relations déjà chargées, c'est instantané.
+            $reservationServices = $reservation->reservationServices;
+
+            // On calcule le total des services à partir de la collection chargée en mémoire.
+            $total_services = $reservationServices->sum(function ($resService) {
+                return $resService->quantite * $resService->prix_unitaire;
+            });
+
+            // On transforme la collection de services en un tableau simple.
+            $mappedServices = $reservationServices->map(function ($resService) {
+                return [
+                    'service_id' => $resService->service->id,
+                    'service_nom' => $resService->service->nom,
+                    'quantite' => $resService->quantite,
+                    'prix_unitaire' => $resService->prix_unitaire,
+                    'total' => $resService->quantite * $resService->prix_unitaire
+                ];
+            });
+
             $dateKey = \Carbon\Carbon::parse($reservation->start_date)->format('Y-m-d');
-    
+
             $informations_reserves[$dateKey][] = [
                 'id' => $reservation->id,
                 'client_nom' => $reservation->client->nom . ' ' . $reservation->client->prenom,
                 'salle_nom' => $reservation->salle->nom ?? 'Salle inconnue',
                 'start_date_formatted' => \App\Helpers\DateHelper::convertirDateEnTexte(\App\Helpers\DateHelper::convertirDateFormat($reservation->start_date)),
+
+                // Ajout de la date ISO pour le tri en JavaScript (comme demandé précédemment)
+                'start_date_iso' => \Carbon\Carbon::parse($reservation->start_date)->toIso8601String(),
+
                 'montant_total' => number_format($reservation->montant_total, 0, ',', ' '),
-                'montant_payer' => number_format($reservation->montant_payer, 0, ',', ' ') ,
-                'montant_restant' => number_format(max($reservation->montant_total - $reservation->montant_payer, 0), 0, ',', ' ') ,
-                'caution' => $caution?->montant_caution ?? 0,
+                'montant_payer' => number_format($reservation->montant_payer, 0, ',', ' '),
+                'montant_restant' => number_format(max($reservation->montant_total - $reservation->montant_payer, 0), 0, ',', ' '),
+
+                // On utilise l'opérateur Nullsafe de PHP 8 pour plus de sécurité
+                'caution' => $reservation->caution?->montant_caution ?? 0,
+
                 'total_services' => $total_services,
                 'montant_reduction' => $reservation->montant_reduction,
-                'services' => $reservationServices,
+                'services' => $mappedServices,
                 'statut' => $reservation->statut,
                 'details_url' => route('detailsReservation', $reservation->id),
             ];
         }
-    
+
         return view('components.reservations.calendar', compact('informations_reserves'));
     }
-    
+
     public function formulaire_modif_reservation($id)
     {
         $entreprise_id = Auth::user()->entreprise_id;
