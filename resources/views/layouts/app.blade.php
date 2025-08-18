@@ -665,7 +665,7 @@
     <!-- @if (!Route::is('calendar'))
 -->
 
-    <div class="position-fixed top-0 start-0 bottom-0 end-0 notificationModal overflow-auto fullPageModalClose"
+    {{-- <div class="position-fixed top-0 start-0 bottom-0 end-0 notificationModal overflow-auto fullPageModalClose"
         style="z-index: 9999;">
         <div class="px-6 pt-8 notification-top-area">
             <div class="d-flex justify-content-start align-items-center gap-4 py-3">
@@ -762,13 +762,13 @@
             </div>
         </div>
         <!-- Settings area end -->
-    </div>
+    </div> --}}
     <!--
 @endif -->
     <!-- Notification Modal End -->
 
     <!-- Doctor Speciality Modal Start (Finance) -->
-    <div class="px-6 pb-8 position-fixed top-0 start-0 bottom-0 end-0 specialityModal fullPageModalClose overflow-auto"
+    {{-- <div class="px-6 pb-8 position-fixed top-0 start-0 bottom-0 end-0 specialityModal fullPageModalClose overflow-auto"
         style="z-index: 9999;">
         <div class="px-6 pt-8 notification-top-area">
             <div class="d-flex justify-content-start align-items-center gap-4 py-3">
@@ -809,27 +809,28 @@
             </div>
             <!-- speciality section end -->
         </div>
-        <!-- Doctor Speciality Modal End -->
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-        <script src="{{ asset('assets/js/script.js') }}"></script>
-        <script>
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js');
-            }
+    </div> --}}
+    <!-- Doctor Speciality Modal End -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
 
-            let deferredPrompt;
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
 
-                const btn = document.createElement('button');
-                btn.textContent = '📲 Installer sur mon téléphone !';
-                btn.id = 'installBtn';
-                document.body.appendChild(btn);
+            const btn = document.createElement('button');
+            btn.textContent = '📲 Installer sur mon téléphone !';
+            btn.id = 'installBtn';
+            document.body.appendChild(btn);
 
-                // Appliquer les styles et animations
-                const style = document.createElement('style');
-                style.innerHTML = `
+            // Appliquer les styles et animations
+            const style = document.createElement('style');
+            style.innerHTML = `
                 #installBtn {
                     position: fixed;
                      top: 50px;
@@ -865,379 +866,379 @@
                     }
                 }
             `;
-                document.head.appendChild(style);
+            document.head.appendChild(style);
 
-                // Action au clic
-                btn.addEventListener('click', () => {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then(choice => {
-                        if (choice.outcome === 'accepted') {
-                            btn.remove();
-                            console.log("✅ L'application YODI EVENTS a été installée !");
-                        } else {
-                            console.log("❌ Installation refusée.");
-                        }
-                    });
+            // Action au clic
+            btn.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        btn.remove();
+                        console.log("✅ L'application YODI EVENTS a été installée !");
+                    } else {
+                        console.log("❌ Installation refusée.");
+                    }
                 });
             });
-        </script>
-        <!-- Logout Modal End -->
-        <!-- Logout Modal End -->
-        <!-- ============================= Modal end ========================== -->
-        <!-- Js Dependencies -->
-        <script src="{{ asset('assets/js/plugins/swiper-bundle.min.js') }}"></script>
-        <script>
-            // Gestion des modales utilisateurs
-            document.addEventListener('DOMContentLoaded', function() {
-                // Gestion du bouton plus
-                const plusButton = document.getElementById('specialityModalOpenButton');
-                if (plusButton) {
-                    plusButton.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        // Ouvrir la modale d'approbations
-                        const specialityModal = document.querySelector('.specialityModal');
-                        if (specialityModal) {
-                            specialityModal.style.display = 'block';
-                        }
-                    });
-                }
-                // Modale de création
-                const openUserModalBtn = document.getElementById('openUserModalBtn');
-                const userModal = document.getElementById('userCreationModal');
-                const userCloseBtn = userModal.querySelector('.close-btn');
+        });
+    </script>
+    <!-- Logout Modal End -->
+    <!-- Logout Modal End -->
+    <!-- ============================= Modal end ========================== -->
+    <!-- Js Dependencies -->
+    <script src="{{ asset('assets/js/plugins/swiper-bundle.min.js') }}"></script>
+    <script>
+        // Gestion des modales utilisateurs
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion du bouton plus
+            const plusButton = document.getElementById('specialityModalOpenButton');
+            if (plusButton) {
+                plusButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Ouvrir la modale d'approbations
+                    const specialityModal = document.querySelector('.specialityModal');
+                    if (specialityModal) {
+                        specialityModal.style.display = 'block';
+                    }
+                });
+            }
+            // Modale de création
+            const openUserModalBtn = document.getElementById('openUserModalBtn');
+            const userModal = document.getElementById('userCreationModal');
+            const userCloseBtn = userModal.querySelector('.close-btn');
 
-                // Modale de visualisation
-                const viewModal = document.getElementById('userViewModal');
-                const viewCloseBtn = viewModal.querySelector('.close-btn');
+            // Modale de visualisation
+            const viewModal = document.getElementById('userViewModal');
+            const viewCloseBtn = viewModal.querySelector('.close-btn');
 
-                // Modale d'édition
-                const editModal = document.getElementById('userEditModal');
-                const editCloseBtn = editModal.querySelector('.close-btn');
+            // Modale d'édition
+            const editModal = document.getElementById('userEditModal');
+            const editCloseBtn = editModal.querySelector('.close-btn');
 
-                // Modale de suppression
-                const deleteModal = document.getElementById('userDeleteModal');
-                const deleteCloseBtn = deleteModal.querySelector('.close-btn');
-                const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-                const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            // Modale de suppression
+            const deleteModal = document.getElementById('userDeleteModal');
+            const deleteCloseBtn = deleteModal.querySelector('.close-btn');
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
-                // Fonction pour ouvrir une modale
-                function openModal(modal) {
-                    if (modal) modal.style.display = 'block';
-                }
+            // Fonction pour ouvrir une modale
+            function openModal(modal) {
+                if (modal) modal.style.display = 'block';
+            }
 
-                // Fonction pour fermer une modale
-                function closeModal(modal) {
-                    if (modal) modal.style.display = 'none';
-                }
+            // Fonction pour fermer une modale
+            function closeModal(modal) {
+                if (modal) modal.style.display = 'none';
+            }
 
-                // Gestion de la création
-                if (openUserModalBtn && userModal && userCloseBtn) {
-                    openUserModalBtn.addEventListener('click', function() {
-                        openModal(userModal);
-                    });
-
-                    userCloseBtn.addEventListener('click', function() {
-                        closeModal(userModal);
-                    });
-                }
-
-                // Gestion de la visualisation
-                document.querySelectorAll('.user-item').forEach(item => {
-                    item.addEventListener('click', function(event) {
-                        // Ignorer les clics sur les boutons d'édition et de suppression
-                        if (event.target.closest('.edit-user-btn') || event.target.closest(
-                                '.delete-user-btn')) {
-                            return;
-                        }
-
-                        const userData = {
-                            name: this.getAttribute('data-name'),
-                            email: this.getAttribute('data-email'),
-                            role: this.getAttribute('data-role')
-                        };
-
-                        // Remplir les informations
-                        document.getElementById('view-user-name').textContent = userData.name;
-                        document.getElementById('view-user-email').textContent = userData.email;
-                        document.getElementById('view-user-role').textContent = userData.role;
-
-                        openModal(viewModal);
-                    });
+            // Gestion de la création
+            if (openUserModalBtn && userModal && userCloseBtn) {
+                openUserModalBtn.addEventListener('click', function() {
+                    openModal(userModal);
                 });
 
-                // Gestion de l'édition
-                document.querySelectorAll('.edit-user-btn').forEach(btn => {
+                userCloseBtn.addEventListener('click', function() {
+                    closeModal(userModal);
+                });
+            }
+
+            // Gestion de la visualisation
+            document.querySelectorAll('.user-item').forEach(item => {
+                item.addEventListener('click', function(event) {
+                    // Ignorer les clics sur les boutons d'édition et de suppression
+                    if (event.target.closest('.edit-user-btn') || event.target.closest(
+                            '.delete-user-btn')) {
+                        return;
+                    }
+
+                    const userData = {
+                        name: this.getAttribute('data-name'),
+                        email: this.getAttribute('data-email'),
+                        role: this.getAttribute('data-role')
+                    };
+
+                    // Remplir les informations
+                    document.getElementById('view-user-name').textContent = userData.name;
+                    document.getElementById('view-user-email').textContent = userData.email;
+                    document.getElementById('view-user-role').textContent = userData.role;
+
+                    openModal(viewModal);
+                });
+            });
+
+            // Gestion de l'édition
+            document.querySelectorAll('.edit-user-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userData = {
+                        name: this.getAttribute('data-name'),
+                        email: this.getAttribute('data-email'),
+                        role: this.getAttribute('data-role')
+                    };
+
+                    // Remplir le formulaire d'édition
+                    document.getElementById('edit-user-name').value = userData.name;
+                    document.getElementById('edit-user-email').value = userData.email;
+                    document.getElementById('edit-user-role').value = userData.role;
+
+                    openModal(editModal);
+                });
+            });
+
+            // Gestion de la suppression
+            document.querySelectorAll('.delete-user-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userName = this.getAttribute('data-name');
+                    // Afficher un message de confirmation avec le nom de l'utilisateur
+                    console.log(`Suppression de ${userName}`);
+                    openModal(deleteModal);
+                });
+            });
+
+            // Gestion des fermetures
+            [viewCloseBtn, editCloseBtn, deleteCloseBtn].forEach(btn => {
+                if (btn) {
                     btn.addEventListener('click', function() {
-                        const userData = {
-                            name: this.getAttribute('data-name'),
-                            email: this.getAttribute('data-email'),
-                            role: this.getAttribute('data-role')
-                        };
-
-                        // Remplir le formulaire d'édition
-                        document.getElementById('edit-user-name').value = userData.name;
-                        document.getElementById('edit-user-email').value = userData.email;
-                        document.getElementById('edit-user-role').value = userData.role;
-
-                        openModal(editModal);
-                    });
-                });
-
-                // Gestion de la suppression
-                document.querySelectorAll('.delete-user-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const userName = this.getAttribute('data-name');
-                        // Afficher un message de confirmation avec le nom de l'utilisateur
-                        console.log(`Suppression de ${userName}`);
-                        openModal(deleteModal);
-                    });
-                });
-
-                // Gestion des fermetures
-                [viewCloseBtn, editCloseBtn, deleteCloseBtn].forEach(btn => {
-                    if (btn) {
-                        btn.addEventListener('click', function() {
-                            closeModal(this.closest('.modal'));
-                        });
-                    }
-                });
-
-                // Gestion de la confirmation de suppression
-                if (confirmDeleteBtn && cancelDeleteBtn) {
-                    confirmDeleteBtn.addEventListener('click', function() {
-                        // Ici, vous pouvez ajouter la logique de suppression
-                        console.log('Suppression confirmée');
-                        closeModal(deleteModal);
-                    });
-
-                    cancelDeleteBtn.addEventListener('click', function() {
-                        closeModal(deleteModal);
+                        closeModal(this.closest('.modal'));
                     });
                 }
-
-                // Fermeture en cliquant en dehors
-                [userModal, viewModal, editModal, deleteModal].forEach(modal => {
-                    if (modal) {
-                        modal.addEventListener('click', function(event) {
-                            if (event.target === this) {
-                                closeModal(this);
-                            }
-                        });
-                    }
-                });
             });
-        </script>
-        <script src="{{ asset('assets/js/plugins/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/jquery-ui.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/jquery.countdown.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/chart.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/waypoints.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/jquery.counterup.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/jquery.magnific-popup.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/jquery.meanmenu.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/parallax.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/wow.min.js') }}"></script>
-        <script src="{{ asset('assets/js/main.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/jquery.nice-select.min.js') }}"></script>
 
-        <script>
-            // Gestion de la modale d'approbations
-            document.addEventListener('DOMContentLoaded', function() {
-                const openButton = document.getElementById('specialityModalOpenButton');
-                const closeButton = document.getElementById('specialityModalCloseButton');
-                const modal = document.querySelector('.specialityModal');
+            // Gestion de la confirmation de suppression
+            if (confirmDeleteBtn && cancelDeleteBtn) {
+                confirmDeleteBtn.addEventListener('click', function() {
+                    // Ici, vous pouvez ajouter la logique de suppression
+                    console.log('Suppression confirmée');
+                    closeModal(deleteModal);
+                });
 
-                if (openButton && closeButton && modal) {
-                    // Ouvrir la modale
-                    openButton.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        modal.style.display = 'block';
-                    });
+                cancelDeleteBtn.addEventListener('click', function() {
+                    closeModal(deleteModal);
+                });
+            }
 
-                    // Fermer la modale
-                    closeButton.addEventListener('click', function() {
-                        modal.style.display = 'none';
-                    });
-
-                    // Fermer la modale en cliquant en dehors
-                    window.addEventListener('click', function(event) {
-                        if (event.target === modal) {
-                            modal.style.display = 'none';
+            // Fermeture en cliquant en dehors
+            [userModal, viewModal, editModal, deleteModal].forEach(modal => {
+                if (modal) {
+                    modal.addEventListener('click', function(event) {
+                        if (event.target === this) {
+                            closeModal(this);
                         }
                     });
                 }
             });
-        </script>
+        });
+    </script>
+    <script src="{{ asset('assets/js/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.countdown.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/chart.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/waypoints.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.meanmenu.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/parallax.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/wow.min.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.nice-select.min.js') }}"></script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        // Gestion de la modale d'approbations
+        document.addEventListener('DOMContentLoaded', function() {
+            const openButton = document.getElementById('specialityModalOpenButton');
+            const closeButton = document.getElementById('specialityModalCloseButton');
+            const modal = document.querySelector('.specialityModal');
 
-                // --- GESTION DES ONGLETS COULISSANTS ---
-                const tabs = document.querySelectorAll('.tab-button');
-                const slider = document.querySelector('.slider');
-                const contents = document.querySelectorAll('.tab-content');
-
-                function updateSlider(activeTab) {
-                    if (!activeTab || !slider) return;
-                    slider.style.width = `${activeTab.offsetWidth}px`;
-                    slider.style.left = `${activeTab.offsetLeft}px`;
-                }
-
-                const initialActiveTab = document.querySelector('.tab-button.active');
-                if (initialActiveTab) {
-                    // Utiliser un petit délai pour s'assurer que le rendu est terminé
-                    setTimeout(() => updateSlider(initialActiveTab), 50);
-                }
-
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        tabs.forEach(t => t.classList.remove('active'));
-                        contents.forEach(c => c.classList.remove('active'));
-
-                        tab.classList.add('active');
-                        const contentId = tab.getAttribute('data-tab');
-                        const activeContent = document.getElementById(contentId);
-                        if (activeContent) {
-                            activeContent.classList.add('active');
-                        }
-
-                        updateSlider(tab);
-                    });
+            if (openButton && closeButton && modal) {
+                // Ouvrir la modale
+                openButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.style.display = 'block';
                 });
 
-                window.addEventListener('resize', () => {
-                    const activeTab = document.querySelector('.tab-button.active');
-                    updateSlider(activeTab);
+                // Fermer la modale
+                closeButton.addEventListener('click', function() {
+                    modal.style.display = 'none';
                 });
 
-                // --- GESTION DE LA MODALE ---
-                const modal = document.getElementById('creationModal');
-                const openBtn = document.getElementById('openModalBtn');
-                const closeBtn = document.querySelector('.close-btn');
-
-                if (modal && openBtn && closeBtn) {
-                    openBtn.onclick = function() {
-                        modal.style.display = 'block';
-                    }
-                    closeBtn.onclick = function() {
+                // Fermer la modale en cliquant en dehors
+                window.addEventListener('click', function(event) {
+                    if (event.target === modal) {
                         modal.style.display = 'none';
                     }
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = 'none';
-                        }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- GESTION DES ONGLETS COULISSANTS ---
+            const tabs = document.querySelectorAll('.tab-button');
+            const slider = document.querySelector('.slider');
+            const contents = document.querySelectorAll('.tab-content');
+
+            function updateSlider(activeTab) {
+                if (!activeTab || !slider) return;
+                slider.style.width = `${activeTab.offsetWidth}px`;
+                slider.style.left = `${activeTab.offsetLeft}px`;
+            }
+
+            const initialActiveTab = document.querySelector('.tab-button.active');
+            if (initialActiveTab) {
+                // Utiliser un petit délai pour s'assurer que le rendu est terminé
+                setTimeout(() => updateSlider(initialActiveTab), 50);
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const contentId = tab.getAttribute('data-tab');
+                    const activeContent = document.getElementById(contentId);
+                    if (activeContent) {
+                        activeContent.classList.add('active');
+                    }
+
+                    updateSlider(tab);
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                const activeTab = document.querySelector('.tab-button.active');
+                updateSlider(activeTab);
+            });
+
+            // --- GESTION DE LA MODALE ---
+            const modal = document.getElementById('creationModal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.querySelector('.close-btn');
+
+            if (modal && openBtn && closeBtn) {
+                openBtn.onclick = function() {
+                    modal.style.display = 'block';
+                }
+                closeBtn.onclick = function() {
+                    modal.style.display = 'none';
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = 'none';
                     }
                 }
-            });
-        </script>
+            }
+        });
+    </script>
 
-        <script>
-            // 🔌 GESTION CONNEXION PERDUE
-            function showOfflinePopup() {
-                const existingPopup = document.getElementById('offline-popup');
-                if (existingPopup) return;
+    <script>
+        // 🔌 GESTION CONNEXION PERDUE
+        function showOfflinePopup() {
+            const existingPopup = document.getElementById('offline-popup');
+            if (existingPopup) return;
 
-                const popup = document.createElement('div');
-                popup.id = 'offline-popup';
-                popup.innerHTML = `
+            const popup = document.createElement('div');
+            popup.id = 'offline-popup';
+            popup.innerHTML = `
             <div class="alert alert-danger text-center position-fixed bottom-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
                 📡 Connexion perdue.
             </div>
         `;
-                document.body.appendChild(popup);
-            }
+            document.body.appendChild(popup);
+        }
 
-            function showOnlinePopup() {
-                const popup = document.createElement('div');
-                popup.id = 'online-popup';
-                popup.innerHTML = `
+        function showOnlinePopup() {
+            const popup = document.createElement('div');
+            popup.id = 'online-popup';
+            popup.innerHTML = `
             <div class="alert alert-success text-center position-fixed bottom-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
                 ✅ Connexion rétablie.
             </div>
         `;
-                document.body.appendChild(popup);
-                setTimeout(() => popup.remove(), 4000);
-            }
+            document.body.appendChild(popup);
+            setTimeout(() => popup.remove(), 4000);
+        }
 
-            function removeOfflinePopup() {
-                const popup = document.getElementById('offline-popup');
-                if (popup) popup.remove();
-                showOnlinePopup();
-            }
+        function removeOfflinePopup() {
+            const popup = document.getElementById('offline-popup');
+            if (popup) popup.remove();
+            showOnlinePopup();
+        }
 
-            window.addEventListener('offline', showOfflinePopup);
-            window.addEventListener('online', removeOfflinePopup);
+        window.addEventListener('offline', showOfflinePopup);
+        window.addEventListener('online', removeOfflinePopup);
 
-            if (!navigator.onLine) {
-                showOfflinePopup();
-            }
+        if (!navigator.onLine) {
+            showOfflinePopup();
+        }
 
-            // 📶 GESTION QUALITÉ RÉSEAU INTERNET
-            function checkNetworkQuality() {
-                const start = Date.now();
-                fetch(window.location.href, {
-                        method: 'HEAD',
-                        cache: 'no-store'
-                    })
-                    .then(() => {
-                        const duration = Date.now() - start;
-                        let message = '';
-                        if (duration < 100) {
-                            message = '🚀 Réseau excellent';
-                        } else if (duration < 500) {
-                            message = '📶 Réseau moyen';
-                        } else {
-                            message = '🐢 Réseau lent';
-                        }
+        // 📶 GESTION QUALITÉ RÉSEAU INTERNET
+        function checkNetworkQuality() {
+            const start = Date.now();
+            fetch(window.location.href, {
+                    method: 'HEAD',
+                    cache: 'no-store'
+                })
+                .then(() => {
+                    const duration = Date.now() - start;
+                    let message = '';
+                    if (duration < 100) {
+                        message = '🚀 Réseau excellent';
+                    } else if (duration < 500) {
+                        message = '📶 Réseau moyen';
+                    } else {
+                        message = '🐢 Réseau lent';
+                    }
 
-                        const quality = document.createElement('div');
-                        quality.className = 'alert alert-info text-center position-fixed bottom-0 start-0 end-0 m-3 shadow';
-                        quality.style.zIndex = 9999;
-                        quality.innerText = message;
-                        document.body.appendChild(quality);
-                        setTimeout(() => quality.remove(), 1000);
-                    });
-            }
+                    const quality = document.createElement('div');
+                    quality.className = 'alert alert-info text-center position-fixed bottom-0 start-0 end-0 m-3 shadow';
+                    quality.style.zIndex = 9999;
+                    quality.innerText = message;
+                    document.body.appendChild(quality);
+                    setTimeout(() => quality.remove(), 1000);
+                });
+        }
 
-            setInterval(checkNetworkQuality, 60000); // Test de réseau toutes les 60s
+        setInterval(checkNetworkQuality, 60000); // Test de réseau toutes les 60s
 
-            // ⏱️ GESTION SESSION EXPIRÉE
-            function showSessionExpiredPopup() {
-                const existingPopup = document.getElementById('session-popup');
-                if (existingPopup) return;
+        // ⏱️ GESTION SESSION EXPIRÉE
+        function showSessionExpiredPopup() {
+            const existingPopup = document.getElementById('session-popup');
+            if (existingPopup) return;
 
-                const popup = document.createElement('div');
-                popup.id = 'session-popup';
-                popup.innerHTML = `
+            const popup = document.createElement('div');
+            popup.id = 'session-popup';
+            popup.innerHTML = `
             <div class="alert alert-warning text-center position-fixed bottom-0 start-0 end-0 m-3 shadow" role="alert" style="z-index: 9999;">
                 ⌛ Session expirée. Redirection en cours...
             </div>
         `;
-                document.body.appendChild(popup);
+            document.body.appendChild(popup);
 
-                setTimeout(() => {
-                    window.location.href = "/login";
-                }, 3000);
-            }
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 3000);
+        }
 
-            function checkSessionExpired() {
-                fetch(window.location.href, {
-                        method: 'HEAD',
-                        cache: 'no-store'
-                    })
-                    .then(response => {
-                        if (response.status === 419 || response.status === 401) {
-                            showSessionExpiredPopup();
-                        }
-                    })
-                    .catch(() => {
-                        showOfflinePopup();
-                    });
-            }
+        function checkSessionExpired() {
+            fetch(window.location.href, {
+                    method: 'HEAD',
+                    cache: 'no-store'
+                })
+                .then(response => {
+                    if (response.status === 419 || response.status === 401) {
+                        showSessionExpiredPopup();
+                    }
+                })
+                .catch(() => {
+                    showOfflinePopup();
+                });
+        }
 
-            setInterval(checkSessionExpired, 60000); // Vérifie expiration session toutes les 60s
-        </script>
+        setInterval(checkSessionExpired, 60000); // Vérifie expiration session toutes les 60s
+    </script>
 
 </body>
 
