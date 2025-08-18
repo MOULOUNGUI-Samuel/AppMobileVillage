@@ -581,11 +581,11 @@
                 <div class="px-6 pt-17 logout-modal-area pb-8 logoutModalClose" id="logoutModal">
                     <div
                         class="sort-options w-100 text-center px-10 d-flex flex-column justify-content-center align-items-center">
-                        <h2 class="heading-2 y300-color">Confirmer la déconexion</h2>
+                        <h2 class="heading-2 y300-color">Confirmer la déconnexion</h2>
                         <div class="custom-border-area position-relative my-5 w-100">
                             <div class="line-horizontal"></div>
                         </div>
-                        <p>Voulez-vous vous déconnecter ?</p>
+                        <p>Souhaitez-vous vraiment vous déconnecter ?</p>
                         <div class="w-100 pt-8 d-flex justify-content-between align-items-center gap-4">
                             <div class="gender-button" id="cancelButton">
                                 <button>Non</button>
