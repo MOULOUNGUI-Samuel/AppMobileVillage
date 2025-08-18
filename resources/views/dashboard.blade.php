@@ -7,7 +7,7 @@
     <!-- Top Doctor Start -->
     <section class="px-6 pt-6 top-doctor-area">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="color-primary">A venir</h3>
+            <h5 class="color-primary">A venir : {{count($reservations)}}</h3>
         </div>
 
         <div class="d-flex flex-column gap-4 pt-4">
