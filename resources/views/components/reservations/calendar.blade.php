@@ -316,7 +316,7 @@
     <!-- La balise ouvrante est ici... -->
     <div class="schedule-section w-100 px-6 pt-8 overflow-hidden mx-1" style="margin-top: -30px">
         <div class="d-flex justify-content-between align-items-center pb-5">
-            <h6>Mes réservations</h6>
+            <h6>Réservations :<span id="reservation-count-badge" class="badge bg-dark rounded-pill ms-1"></span></h6>
             <div class="flex-center gap-3">
                 <button id="prev-month-btn" class="month-navigation-button flex-center">
                     <i class="ph ph-caret-left" style="font-size: 13px"></i>
@@ -432,122 +432,122 @@
     <!-- SCRIPT CORRIGÉ -->
     <script>
         const eventsByDate = @json($informations_reserves ?? []);
-
+    
         document.addEventListener('DOMContentLoaded', function() {
-
+    
             // --- GESTION DU DOM ---
             const eventListContainer = document.getElementById('event-list-container');
             const monthDisplay = document.getElementById('currentMonthDisplay');
             const dayContainer = document.getElementById('schedule-day-container');
             const prevMonthBtn = document.getElementById('prev-month-btn');
             const nextMonthBtn = document.getElementById('next-month-btn');
-            const showAllMonthBtn = document.getElementById('show-all-month-btn'); // Le nouveau bouton
+            const showAllMonthBtn = document.getElementById('show-all-month-btn');
+            const reservationCountBadge = document.getElementById('reservation-count-badge');
             let currentDate = new Date();
             currentDate.setDate(1);
-
-            const monthFormatter = new Intl.DateTimeFormat('fr-FR', {
-                month: 'long',
-                year: 'numeric'
-            });
-            const weekdayFormatter = new Intl.DateTimeFormat('fr-FR', {
-                weekday: 'short'
-            });
-
+    
+            const monthFormatter = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' });
+            const weekdayFormatter = new Intl.DateTimeFormat('fr-FR', { weekday: 'short' });
+    
             function changeMonth(direction) {
                 currentDate.setMonth(currentDate.getMonth() + direction);
                 updateCalendarDisplay();
             }
-
+    
             prevMonthBtn.onclick = () => changeMonth(-1);
             nextMonthBtn.onclick = () => changeMonth(1);
-
-            // Action pour le bouton "Voir tout le mois"
             showAllMonthBtn.onclick = () => {
                 dayContainer.querySelector('.active')?.classList.remove('active');
                 showAllMonthBtn.classList.add('d-none');
                 displayEventsForMonth(currentDate);
             };
-
+    
             function updateCalendarDisplay() {
                 monthDisplay.textContent = monthFormatter.format(currentDate).replace(/^\w/, c => c.toUpperCase());
                 renderDayScroller();
-                // CORRECTION: Affiche les événements du mois au lieu de cliquer sur un jour
-                displayEventsForMonth(currentDate);
+                displayEventsForMonth(currentDate); // Affiche les événements du mois par défaut
             }
-
+    
             function renderDayScroller() {
                 dayContainer.innerHTML = '';
                 const year = currentDate.getFullYear();
                 const month = currentDate.getMonth();
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
-
+    
                 for (let i = 1; i <= daysInMonth; i++) {
                     const dayDate = new Date(year, month, i);
                     const dateString = formatDate(dayDate);
-
                     const button = document.createElement('button');
                     button.className = 'flex-center flex-column scheduleButton';
                     button.dataset.date = dateString;
-
+    
                     if (eventsByDate[dateString]) {
                         button.classList.add('has-events');
                     }
-
-                    button.innerHTML =
-                        `<span class="fw-semibold">${i}</span><span class="date">${weekdayFormatter.format(dayDate).replace('.', '')}</span>`;
-
-                    // CORRECTION: Le clic affiche maintenant les événements du jour
+    
+                    button.innerHTML = `<span class="fw-semibold">${i}</span><span class="date">${weekdayFormatter.format(dayDate).replace('.', '')}</span>`;
+    
                     button.onclick = () => {
                         dayContainer.querySelector('.active')?.classList.remove('active');
                         button.classList.add('active');
-                        showAllMonthBtn.classList.remove('d-none'); // Affiche le bouton "Voir tout le mois"
-                        displayEventsForDate(dateString);
+                        showAllMonthBtn.classList.remove('d-none');
+                        displayEventsForDate(dateString); // Affiche les événements du jour
                     };
                     dayContainer.appendChild(button);
                 }
             }
-
-            // --- NOUVELLE FONCTION: Affiche les événements pour le mois entier ---
+    
+            // --- FONCTION POUR METTRE À JOUR LE BADGE ---
+            function updateReservationCount(count) {
+                if (reservationCountBadge) {
+                    reservationCountBadge.textContent = count;
+                }
+            }
+            
+            // --- FONCTION POUR AFFICHER LES ÉVÉNEMENTS DU MOIS (MODIFIÉE) ---
             function displayEventsForMonth(date) {
                 eventListContainer.innerHTML = '';
                 let eventsOfMonth = [];
+                let totalCount = 0; // Initialise le compteur pour le mois
                 const year = date.getFullYear();
                 const month = date.getMonth();
-
-                // On collecte tous les événements du mois
+    
                 for (const dateKey in eventsByDate) {
-                    const eventDate = new Date(dateKey);
+                    const eventDate = new Date(dateKey + 'T12:00:00');
                     if (eventDate.getFullYear() === year && eventDate.getMonth() === month) {
-                        eventsOfMonth = eventsOfMonth.concat(eventsByDate[dateKey]);
+                        const dailyEvents = eventsByDate[dateKey];
+                        eventsOfMonth = eventsOfMonth.concat(dailyEvents);
+                        totalCount += dailyEvents.length; // Ajoute le nombre de réservations du jour au total
                     }
                 }
-
-                // On trie les événements par date pour un affichage chronologique
+    
+                updateReservationCount(totalCount); // Met à jour le badge avec le total du mois
+    
                 eventsOfMonth.sort((a, b) => new Date(a.start_date_iso) - new Date(b.start_date_iso));
-
+    
                 if (eventsOfMonth.length === 0) {
-                    eventListContainer.innerHTML =
-                        '<p class="text-center text-muted mt-5">Aucune réservation pour ce mois.</p>';
+                    eventListContainer.innerHTML = '<p class="text-center text-muted mt-5">Aucune réservation pour ce mois.</p>';
                     return;
                 }
-
+    
                 eventsOfMonth.forEach(event => {
                     const eventCard = createEventCard(event);
                     eventListContainer.appendChild(eventCard);
                 });
             }
-
-            // --- FONCTION D'AFFICHAGE POUR UN JOUR (inchangée) ---
+    
+            // --- FONCTION D'AFFICHAGE POUR UN JOUR (MODIFIÉE) ---
             function displayEventsForDate(dateString) {
                 const events = eventsByDate[dateString] || [];
                 eventListContainer.innerHTML = '';
-
+    
+                updateReservationCount(events.length); // Met à jour le badge avec le total du JOUR
+    
                 if (events.length === 0) {
-                    eventListContainer.innerHTML =
-                        '<p class="text-center text-muted mt-5">Aucune réservation pour ce jour.</p>';
+                    eventListContainer.innerHTML = '<p class="text-center text-muted mt-5">Aucune réservation pour ce jour.</p>';
                     return;
                 }
-
+    
                 events.forEach(event => {
                     const eventCard = createEventCard(event);
                     eventListContainer.appendChild(eventCard);
